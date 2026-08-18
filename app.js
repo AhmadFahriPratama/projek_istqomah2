@@ -145,6 +145,7 @@ class StockApp {
     this.scannerStream = null;
     this.scannerScanning = false;
     this.audioContext = null;
+    this.scannerMode = 'DEFAULT'; // 'DEFAULT' or 'ADD_ITEM'
 
     this.loadData();
     this.initElements();
@@ -322,7 +323,16 @@ class StockApp {
   // ==========================================
   // BARCODE & QR SCANNER ENGINE
   // ==========================================
+  async openScannerForAdd() {
+    this.scannerMode = 'ADD_ITEM';
+    await this.openScanner();
+  }
+
   async openScanner() {
+    if (this.scannerMode !== 'ADD_ITEM') {
+      this.scannerMode = 'DEFAULT';
+    }
+    
     this.openModal(this.scannerModal);
     if (this.manualBarcodeInput) {
       this.manualBarcodeInput.value = '';
@@ -440,8 +450,19 @@ class StockApp {
     this.playScanBeep();
     this.closeScanner();
 
-    // Look up item in database
     const trimmedCode = code.trim().toLowerCase();
+
+    if (this.scannerMode === 'ADD_ITEM') {
+      const barcodeInput = document.getElementById('newItemBarcode');
+      if (barcodeInput) {
+        barcodeInput.value = trimmedCode;
+        this.showToast('Barcode berhasil disalin ke form!', 'success');
+      }
+      this.scannerMode = 'DEFAULT';
+      return;
+    }
+
+    // Look up item in database
     const foundItem = this.state.items.find(i => 
       (i.barcode && i.barcode.toLowerCase() === trimmedCode) ||
       (i.sku && i.sku.toLowerCase() === trimmedCode)
@@ -960,51 +981,103 @@ class StockApp {
         }).join('')}
       </div>
 
-      <!-- ITEMS GRID -->
-      <div class="items-grid">
-        ${items.length === 0 ? `
-          <div class="empty-state">
-            <div class="empty-state-icon">${ICONS.box}</div>
-            <div style="font-weight:700; color:var(--text-white);">Tidak ada barang ditemukan</div>
-            <div style="font-size:12px;">Coba ubah kata kunci pencarian atau tambah barang baru.</div>
-            <button class="btn-primary" style="margin-top:8px;" onclick="app.openAddItemModal()">+ Tambah Barang Baru</button>
+      <!-- ITEMS SPLIT LIST -->
+      <div class="split-lists-container">
+        <!-- AVAILABLE / LOW STOCK -->
+        <div style="margin-bottom: 24px;">
+          <div style="font-weight:700; color:var(--text-white); margin-bottom: 12px; font-size: 14.5px; border-bottom: 2px solid var(--border-subtle); padding-bottom: 6px; display:flex; justify-content:space-between;">
+            <span>Stok Tersedia / Menipis</span>
+            <span style="color:var(--text-dim);">${items.filter(i => i.stock > 0).length} Barang</span>
           </div>
-        ` : items.map(item => {
-          const slot = floor.slots.find(s => s.id === item.slotId);
-          const health = this.getItemHealth(item);
-          const statusLabel = health === 'empty' ? 'STOK HABIS' : health === 'low' ? 'MENIPIS' : 'AMAN';
+          <div class="items-grid">
+            ${items.filter(i => i.stock > 0).length === 0 ? `
+              <div style="font-size:12px; color:var(--text-muted); text-align:center; padding: 20px 0;">Tidak ada barang yang tersedia.</div>
+            ` : items.filter(i => i.stock > 0).map(item => {
+              const slot = floor.slots.find(s => s.id === item.slotId);
+              const health = this.getItemHealth(item);
+              const statusLabel = health === 'low' ? 'MENIPIS' : 'AMAN';
 
-          return `
-            <div class="item-card status-${health}" onclick="app.openMutationDialog('${item.id}')">
-              <div class="item-header">
-                <div class="item-title-box">
-                  <div class="item-name">${item.name}</div>
-                  <div class="item-sku-row">
-                    <span>SKU: ${item.sku}</span>
-                    <span>•</span>
-                    <span style="display:inline-flex; align-items:center; gap:3px;">${ICONS.location} ${item.location}</span>
-                    ${item.barcode ? `<span>•</span><span>BC: ${item.barcode}</span>` : ''}
+              return `
+                <div class="item-card status-${health}" onclick="app.openMutationDialog('${item.id}')">
+                  <div class="item-header">
+                    <div class="item-title-box">
+                      <div class="item-name">${item.name}</div>
+                      <div class="item-sku-row">
+                        <span>SKU: ${item.sku}</span>
+                        <span>•</span>
+                        <span style="display:inline-flex; align-items:center; gap:3px;">${ICONS.location} ${item.location}</span>
+                        ${item.barcode ? `<span>•</span><span>BC: ${item.barcode}</span>` : ''}
+                      </div>
+                    </div>
+
+                    <div class="item-stock-box">
+                      <div class="item-stock-val" style="color: ${health === 'low' ? '#D97706' : '#059669'};">
+                        ${item.stock}
+                      </div>
+                      <div class="item-unit">${item.unit}</div>
+                    </div>
+                  </div>
+
+                  <div class="item-meta-row">
+                    <div style="display:flex; align-items:center; gap:6px;">
+                      <span class="item-slot-tag">${slot ? slot.code : 'Slot'}</span>
+                      <span class="status-pill ${health}">${statusLabel}</span>
+                    </div>
+                    <div style="font-size: 10px; color: var(--text-dim); font-weight:600;">Klik untuk update mutasi</div>
                   </div>
                 </div>
+              `;
+            }).join('')}
+          </div>
+        </div>
 
-                <div class="item-stock-box">
-                  <div class="item-stock-val" style="color: ${health === 'empty' ? '#E11D48' : health === 'low' ? '#D97706' : '#059669'};">
-                    ${item.stock}
+        <!-- EMPTY STOCK -->
+        <div>
+          <div style="font-weight:700; color:var(--ruby-primary); margin-bottom: 12px; font-size: 14.5px; border-bottom: 2px solid var(--ruby-subtle); padding-bottom: 6px; display:flex; justify-content:space-between;">
+            <span>Stok Habis / Kosong</span>
+            <span style="color:var(--ruby-dark);">${items.filter(i => i.stock === 0).length} Barang</span>
+          </div>
+          <div class="items-grid">
+            ${items.filter(i => i.stock === 0).length === 0 ? `
+              <div style="font-size:12px; color:var(--text-muted); text-align:center; padding: 20px 0;">Tidak ada barang yang habis di kategori ini.</div>
+            ` : items.filter(i => i.stock === 0).map(item => {
+              const slot = floor.slots.find(s => s.id === item.slotId);
+              const health = 'empty';
+              const statusLabel = 'STOK HABIS';
+
+              return `
+                <div class="item-card status-${health}" onclick="app.openMutationDialog('${item.id}')" style="background: rgba(225, 29, 72, 0.02); border-color: rgba(225, 29, 72, 0.1);">
+                  <div class="item-header">
+                    <div class="item-title-box">
+                      <div class="item-name">${item.name}</div>
+                      <div class="item-sku-row">
+                        <span>SKU: ${item.sku}</span>
+                        <span>•</span>
+                        <span style="display:inline-flex; align-items:center; gap:3px;">${ICONS.location} ${item.location}</span>
+                        ${item.barcode ? `<span>•</span><span>BC: ${item.barcode}</span>` : ''}
+                      </div>
+                    </div>
+
+                    <div class="item-stock-box">
+                      <div class="item-stock-val" style="color: #E11D48;">
+                        ${item.stock}
+                      </div>
+                      <div class="item-unit">${item.unit}</div>
+                    </div>
                   </div>
-                  <div class="item-unit">${item.unit}</div>
-                </div>
-              </div>
 
-              <div class="item-meta-row">
-                <div style="display:flex; align-items:center; gap:6px;">
-                  <span class="item-slot-tag">${slot ? slot.code : 'Slot'}</span>
-                  <span class="status-pill ${health}">${statusLabel}</span>
+                  <div class="item-meta-row">
+                    <div style="display:flex; align-items:center; gap:6px;">
+                      <span class="item-slot-tag">${slot ? slot.code : 'Slot'}</span>
+                      <span class="status-pill ${health}">${statusLabel}</span>
+                    </div>
+                    <div style="font-size: 10px; color: var(--ruby-primary); font-weight:600;">Klik untuk restock</div>
+                  </div>
                 </div>
-                <div style="font-size: 10px; color: var(--text-dim); font-weight:600;">Klik untuk update mutasi</div>
-              </div>
-            </div>
-          `;
-        }).join('')}
+              `;
+            }).join('')}
+          </div>
+        </div>
       </div>
     `;
 
