@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="theme-color" content="#120E0C">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <title>Istiqomah Stock - Sistem Manajemen Inventaris 4 Lantai</title>
+  <link rel="manifest" href="manifest.json">
+  <link rel="stylesheet" href="app.css">
+</head>
+<body>
+
+  <!-- MOBILE APP WRAPPER -->
+  <div class="app-container">
+
+    <!-- TOP HEADER BAR -->
+    <header class="app-header">
+      <div class="header-left">
+        <!-- TOP-LEFT COLLAPSIBLE DRAWER BUTTON -->
+        <button class="drawer-toggle-btn" id="drawerToggleBtn" title="Buka Navigasi (Kiri Atas)" aria-label="Buka Menu">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="3" y1="12" x2="21" y2="12"></line>
+            <line x1="3" y1="6" x2="21" y2="6"></line>
+            <line x1="3" y1="18" x2="21" y2="18"></line>
+          </svg>
+        </button>
+
+        <div class="header-brand">
+          <img src="logo.svg" alt="Istiqomah Logo" class="header-logo-img">
+          <div class="header-brand-text">
+            <div class="header-brand-title" id="headerTitle">Istiqomah <span>Stock</span></div>
+            <div class="header-brand-sub" id="headerSub">
+              <span class="status-indicator"></span>
+              <span>Offline Active</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="header-actions">
+        <!-- QUICK SCAN BARCODE BUTTON IN HEADER -->
+        <button class="header-icon-btn btn-scan-header" id="headerScanBtn" title="Scan Barcode / QR">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M3 7V5a2 2 0 0 1 2-2h2"></path>
+            <path d="M17 3h2a2 2 0 0 1 2 2v2"></path>
+            <path d="M21 17v2a2 2 0 0 1-2 2h-2"></path>
+            <path d="M7 21H5a2 2 0 0 1-2-2v-2"></path>
+            <line x1="7" y1="12" x2="17" y2="12" stroke="#EF4444" stroke-width="2.5"></line>
+          </svg>
+        </button>
+
+        <!-- CRITICAL ALERT BUTTON -->
+        <button class="header-icon-btn" id="headerAlertBtn" title="Peringatan Stok Kritis">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
+            <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
+          </svg>
+          <span class="badge-count" id="alertCountBadge" style="display:none;">0</span>
+        </button>
+      </div>
+    </header>
+
+    <!-- COLLAPSIBLE NAVIGATION DRAWER (SLIDE-IN DARI KIRI ATAS) -->
+    <div class="drawer-backdrop" id="drawerBackdrop"></div>
+    <aside class="app-drawer" id="appDrawer">
+      <div class="drawer-header">
+        <div class="drawer-logo-box">
+          <img src="logo.svg" alt="Istiqomah Logo" class="drawer-logo-img">
+          <div>
+            <div style="font-weight: 800; font-size: 14px; color: #FAF8F5; letter-spacing: -0.3px;">ISTIQOMAH STOCK</div>
+            <div style="font-size: 10px; color: #34D399; font-weight:600; display:flex; align-items:center; gap:4px; margin-top:2px;">
+              <span class="status-indicator"></span> 100% Offline Engine
+            </div>
+          </div>
+        </div>
+        <button class="drawer-close-btn" id="drawerCloseBtn" title="Tutup Menu">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+        </button>
+      </div>
+
+      <div class="drawer-body">
+        <div class="drawer-section-title">Dashboard & Analitik</div>
+        <div class="drawer-nav-item active" data-view="dashboard">
+          <div class="drawer-item-left">
+            <svg class="icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"></rect><rect x="14" y="3" width="7" height="7" rx="1"></rect><rect x="14" y="14" width="7" height="7" rx="1"></rect><rect x="3" y="14" width="7" height="7" rx="1"></rect></svg>
+            <span>Dashboard & Chart</span>
+          </div>
+        </div>
+
+        <div class="drawer-nav-item" id="drawerScanItem" style="color: #F87171; border: 1px solid rgba(220, 38, 38, 0.3); background: rgba(220, 38, 38, 0.1);">
+          <div class="drawer-item-left">
+            <svg class="icon-svg" viewBox="0 0 24 24" fill="none" stroke="#F87171" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M3 7V5a2 2 0 0 1 2-2h2"></path>
+              <path d="M17 3h2a2 2 0 0 1 2 2v2"></path>
+              <path d="M21 17v2a2 2 0 0 1-2 2h-2"></path>
+              <path d="M7 21H5a2 2 0 0 1-2-2v-2"></path>
+              <line x1="7" y1="12" x2="17" y2="12"></line>
+            </svg>
+            <span style="font-weight: 700;">Scan Barcode Kamera</span>
+          </div>
+          <span style="font-size: 9px; background:#DC2626; color:#fff; padding: 2px 6px; border-radius: 4px; font-weight:800;">LIVE</span>
+        </div>
+
+        <div class="drawer-section-title">Zonasi Toko (4 Lantai)</div>
+        <div class="drawer-nav-item" data-view="floor_1">
+          <div class="drawer-item-left">
+            <svg class="icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path><line x1="3" y1="6" x2="21" y2="6"></line><path d="M16 10a4 4 0 0 1-8 0"></path></svg>
+            <span>Lantai 1: Kebutuhan</span>
+          </div>
+        </div>
+
+        <div class="drawer-nav-item" data-view="floor_2">
+          <div class="drawer-item-left">
+            <svg class="icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.38 3.46L16 2a4 4 0 0 1-8 0L3.62 3.46a2 2 0 0 0-1.34 2.23l.58 3.5a2 2 0 0 0 1.25 1.55L7 12v9a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1v-9l2.89-1.26a2 2 0 0 0 1.25-1.55l.58-3.5a2 2 0 0 0-1.34-2.23z"></path></svg>
+            <span>Lantai 2: Pakaian</span>
+          </div>
+        </div>
+
+        <div class="drawer-nav-item" data-view="floor_3">
+          <div class="drawer-item-left">
+            <svg class="icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+            <span>Lantai 3: Perabotan</span>
+          </div>
+        </div>
+
+        <div class="drawer-nav-item" data-view="floor_4">
+          <div class="drawer-item-left">
+            <svg class="icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path><polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline><line x1="12" y1="22.08" x2="12" y2="12"></line></svg>
+            <span>Lantai 4: Gudang Utama</span>
+          </div>
+        </div>
+
+        <div class="drawer-section-title">Laporan & Audit</div>
+        <div class="drawer-nav-item" data-view="report_outofstock" style="color:#F87171;">
+          <div class="drawer-item-left">
+            <svg class="icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
+            <span>Laporan Stok Habis</span>
+          </div>
+          <span class="drawer-item-badge" id="drawerAlertBadge" style="background: linear-gradient(135deg, #E11D48, #9F1239); color:#fff;">0</span>
+        </div>
+
+        <div class="drawer-nav-item" data-view="mutations">
+          <div class="drawer-item-left">
+            <svg class="icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="17 1 21 5 17 9"></polyline><path d="M3 11V9a4 4 0 0 1 4-4h14"></path><polyline points="7 23 3 19 7 15"></polyline><path d="M21 13v2a4 4 0 0 1-4 4H3"></path></svg>
+            <span>Riwayat Mutasi Barang</span>
+          </div>
+        </div>
+
+        <div class="drawer-section-title">Sistem</div>
+        <div class="drawer-nav-item" data-view="settings">
+          <div class="drawer-item-left">
+            <svg class="icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="5" rx="9" ry="3"></ellipse><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"></path><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"></path></svg>
+            <span>Backup & Pengaturan</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="drawer-footer">
+        <div style="font-weight:700; color:var(--text-cream);">Istiqomah Stock v1.0.0 (Offline)</div>
+        <div style="font-size: 9.5px; margin-top: 2px; color:var(--text-dim);">Database: Local SQLite/Storage</div>
+      </div>
+    </aside>
+
+    <!-- DYNAMIC MAIN CONTENT VIEW -->
+    <main class="app-content" id="appContent">
+      <!-- Injected by app.js -->
+    </main>
+
+    <!-- FLOATING ACTION BUTTON -->
+    <button class="app-fab" id="fabBtn" title="Aksi Cepat">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+      <span>Tambah / Mutasi</span>
+    </button>
+
+    <!-- ==========================================================================
+         MODAL 1: SCANNER BARCODE & QR CODE KAMERA REALTIME
+         ========================================================================== -->
+    <div class="modal-overlay" id="scannerModal">
+      <div class="modal-content modal-scanner-content">
+        <div class="modal-header">
+          <div class="modal-title" style="display:flex; align-items:center; gap:8px;">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#EF4444" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M3 7V5a2 2 0 0 1 2-2h2"></path>
+              <path d="M17 3h2a2 2 0 0 1 2 2v2"></path>
+              <path d="M21 17v2a2 2 0 0 1-2 2h-2"></path>
+              <path d="M7 21H5a2 2 0 0 1-2-2v-2"></path>
+              <line x1="7" y1="12" x2="17" y2="12"></line>
+            </svg>
+            <span>Scan Barcode / QR Produk</span>
+          </div>
+          <button class="modal-close-btn" id="scannerCloseBtn">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+          </button>
+        </div>
+
+        <!-- CAMERA VIEWFINDER BOX -->
+        <div class="scanner-viewfinder-container">
+          <video id="scannerVideo" autoplay playsinline muted class="scanner-video-feed"></video>
+          <canvas id="scannerCanvas" style="display:none;"></canvas>
+
+          <!-- OVERLAY LASER & TARGET RETICLE -->
+          <div class="scanner-reticle">
+            <div class="reticle-corner corner-tl"></div>
+            <div class="reticle-corner corner-tr"></div>
+            <div class="reticle-corner corner-bl"></div>
+            <div class="reticle-corner corner-br"></div>
+            <div class="laser-scanline"></div>
+          </div>
+
+          <div class="scanner-status-overlay" id="scannerStatusText">
+            Arahkan kamera ke barcode produk...
+          </div>
+        </div>
+
+        <!-- MANUAL BARCODE INPUT FALLBACK -->
+        <div class="scanner-manual-box">
+          <div style="font-size:11px; color:#B8ADA5; font-weight:700; margin-bottom:4px;">Atau Masukkan Barcode / SKU Manual:</div>
+          <form id="manualBarcodeForm" style="display:flex; gap:6px;">
+            <input type="text" id="manualBarcodeInput" class="form-input" placeholder="Ketik Barcode/SKU..." style="flex:1; font-family:'JetBrains Mono', monospace;">
+            <button type="submit" class="btn-primary" style="padding:0 14px; font-size:12px;">Cari</button>
+          </form>
+        </div>
+
+        <!-- QUICK TEST BARCODES (FOR DESKTOP / DEMO SCANNING) -->
+        <div class="scanner-test-presets">
+          <div style="font-size:10.5px; color:#8C827A; font-weight:700;">Simulasi Cepat (Klik untuk Scan):</div>
+          <div class="test-barcode-chips">
+            <button type="button" class="test-chip" onclick="app.processScannedCode('89912345001')">PMP-001 (MamyPoko)</button>
+            <button type="button" class="test-chip" onclick="app.processScannedCode('89912345006')">MYK-002 (Bimoli 2L - Habis)</button>
+            <button type="button" class="test-chip" onclick="app.processScannedCode('89912345014')">GMS-004 (Gamis Dewasa)</button>
+            <button type="button" class="test-chip" onclick="app.processScannedCode('89912345017')">WJN-001 (Wajan Teflon L3)</button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ==========================================================================
+         MODAL 2: MUTASI TRANSAKSI CEPAT (+ / -)
+         ========================================================================== -->
+    <div class="modal-overlay" id="mutationModal">
+      <div class="modal-content">
+        <div class="modal-header">
+          <div class="modal-title">Update Mutasi Stok</div>
+          <button class="modal-close-btn" id="modalCloseBtn">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+          </button>
+        </div>
+
+        <div>
+          <div style="font-size: 14.5px; font-weight: 800; color: #FAF8F5;" id="modalItemName">Nama Barang</div>
+          <div style="font-size: 11px; color: #B8ADA5; margin-top: 2px;" id="modalItemMeta">Lokasi Lantai & Rak</div>
+        </div>
+
+        <div style="background:#17120F; padding:11px 13px; border-radius:8px; border:1px solid #45342B; display:flex; justify-content:space-between; align-items:center;">
+          <span style="font-size: 12px; color: #B8ADA5; font-weight:600;">Stok Display Saat Ini:</span>
+          <span style="font-size: 17px; font-weight: 800; color: #FAF8F5; font-family:'JetBrains Mono', monospace;" id="modalCurrentStock">0 Pcs</span>
+        </div>
+
+        <div id="modalL4Availability" style="background:#1E1510; padding:9px 12px; border-radius:8px; border:1px solid #6E3B20; font-size:11.5px; color:#D6C7BF; display:none;">
+          <!-- Injected dynamically -->
+        </div>
+
+        <form id="mutationForm" style="display:flex; flex-direction:column; gap:12px;">
+          <div class="form-group">
+            <label class="form-label">Tipe Transaksi</label>
+            <div class="type-toggle-row">
+              <button type="button" class="type-toggle-btn active in" id="toggleTypeIn" onclick="app.setMutationType('IN')">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                <span>MASUK (IN)</span>
+              </button>
+              <button type="button" class="type-toggle-btn" id="toggleTypeOut" onclick="app.setMutationType('OUT')">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                <span>KELUAR (OUT)</span>
+              </button>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="modalInputQty">Jumlah Kuantitas</label>
+            <input type="number" id="modalInputQty" class="form-input" min="1" value="1" required style="font-size:17px; font-weight:800; text-align:center; font-family:'JetBrains Mono', monospace;">
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="modalInputNote">Catatan Mutasi / Keterangan</label>
+            <input type="text" id="modalInputNote" class="form-input" placeholder="Contoh: Tarik dari Gudang Lt 4 / Penjualan Kasir">
+          </div>
+
+          <button type="submit" class="btn-primary" style="padding:12px; font-size:13px; margin-top:4px;">
+            Simpan Mutasi Offline
+          </button>
+        </form>
+      </div>
+    </div>
+
+    <!-- ==========================================================================
+         MODAL 3: TAMBAH BARANG BARU
+         ========================================================================== -->
+    <div class="modal-overlay" id="addItemModal">
+      <div class="modal-content">
+        <div class="modal-header">
+          <div class="modal-title">Tambah Barang Baru</div>
+          <button class="modal-close-btn" id="addItemCloseBtn">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+          </button>
+        </div>
+
+        <form id="addItemForm" style="display:flex; flex-direction:column; gap:11px;">
+          <div class="form-group">
+            <label class="form-label" for="newItemName">Nama Produk / Barang</label>
+            <input type="text" id="newItemName" class="form-input" placeholder="Contoh: MamyPoko Pants L28" required>
+          </div>
+
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px;">
+            <div class="form-group">
+              <label class="form-label" for="newItemFloor">Pilih Lantai</label>
+              <select id="newItemFloor" class="form-select"></select>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="newItemSlot">Pilih Slot / Kategori</label>
+              <select id="newItemSlot" class="form-select"></select>
+            </div>
+          </div>
+
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px;">
+            <div class="form-group">
+              <label class="form-label" for="newItemSku">Kode SKU</label>
+              <input type="text" id="newItemSku" class="form-input" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="newItemBarcode">Barcode / EAN</label>
+              <input type="text" id="newItemBarcode" class="form-input">
+            </div>
+          </div>
+
+          <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:8px;">
+            <div class="form-group">
+              <label class="form-label" for="newItemStock">Stok Awal</label>
+              <input type="number" id="newItemStock" class="form-input" min="0" value="20">
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="newItemMinStock">Batas Min</label>
+              <input type="number" id="newItemMinStock" class="form-input" min="0" value="5">
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="newItemUnit">Satuan</label>
+              <select id="newItemUnit" class="form-select">
+                <option value="Pcs">Pcs</option>
+                <option value="Pack">Pack</option>
+                <option value="Dus">Dus</option>
+                <option value="Karung">Karung</option>
+                <option value="Bal">Bal</option>
+                <option value="Set">Set</option>
+                <option value="Lusin">Lusin</option>
+                <option value="Unit">Unit</option>
+              </select>
+            </div>
+          </div>
+
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px;">
+            <div class="form-group">
+              <label class="form-label" for="newItemMaxStock">Kapasitas Maks Rak</label>
+              <input type="number" id="newItemMaxStock" class="form-input" min="1" value="100">
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="newItemLocation">Posisi Fisik Rak</label>
+              <input type="text" id="newItemLocation" class="form-input" placeholder="Contoh: Rak 1A">
+            </div>
+          </div>
+
+          <button type="submit" class="btn-primary" style="padding:12px; font-size:13px; margin-top:4px;">
+            Simpan Barang ke Database
+          </button>
+        </form>
+      </div>
+    </div>
+
+    <!-- TOAST NOTIFICATION CONTAINER -->
+    <div class="toast-container" id="toastContainer"></div>
+
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>

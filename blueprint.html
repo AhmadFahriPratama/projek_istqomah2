@@ -1,0 +1,1727 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<title>Dokumen Perencanaan Mobile App - Istiqomah Stock</title>
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap');
+
+    :root {
+        --color-black-bg: #090706;
+        --color-black-surface: #14100E;
+        --color-black-card: #201915;
+        --color-brown-primary: #6E3B20;
+        --color-brown-light: #944D29;
+        --color-brown-dark: #3F1F10;
+        --color-red-primary: #DC2626;
+        --color-red-dark: #88131B;
+        --color-red-light: #F87171;
+        --color-amber-warning: #D97706;
+        --color-amber-light: #FBBF24;
+        --color-green-safe: #10B981;
+        --color-text-white: #FAF8F5;
+        --color-text-cream: #EAE1D9;
+        --color-text-muted: #B8ADA5;
+        --color-text-dim: #7E726A;
+        --color-border: #382B24;
+    }
+
+    * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+    }
+
+    body {
+        font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        background-color: #FAF8F5;
+        color: #1F1B18;
+        line-height: 1.45;
+        font-size: 9.8pt;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+        letter-spacing: -0.01em;
+    }
+
+    @page {
+        size: A4 portrait;
+        margin: 10mm 12mm 10mm 12mm;
+    }
+
+    .page {
+        width: 100%;
+        page-break-after: always;
+        page-break-inside: avoid;
+        position: relative;
+        padding-bottom: 14px;
+    }
+
+    .page:last-child {
+        page-break-after: avoid;
+    }
+
+    .page-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-bottom: 1.5px solid var(--color-brown-light);
+        padding-bottom: 5px;
+        margin-bottom: 12px;
+        font-size: 8pt;
+        color: var(--color-brown-dark);
+        font-weight: 600;
+        letter-spacing: 0.5px;
+    }
+
+    .page-header-logo {
+        display: flex;
+        align-items: center;
+        gap: 7px;
+    }
+
+    .page-header-badge {
+        background: var(--color-brown-primary);
+        color: #fff;
+        padding: 2px 7px;
+        border-radius: 4px;
+        font-size: 7pt;
+        font-weight: 700;
+    }
+
+    .page-footer {
+        margin-top: 14px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-top: 1px solid #E2D9D2;
+        padding-top: 4px;
+        font-size: 7.5pt;
+        color: var(--color-text-dim);
+    }
+
+    /* COVER PAGE */
+    .cover-container {
+        background: linear-gradient(145deg, #090706 0%, #17110E 40%, #30170C 85%, #5A2A14 100%);
+        color: #fff;
+        border-radius: 12px;
+        padding: 28px 26px;
+        min-height: 260mm;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        box-shadow: 0 12px 30px rgba(0,0,0,0.4);
+        border: 2px solid var(--color-brown-light);
+        position: relative;
+        overflow: hidden;
+    }
+
+    .cover-bg-decor {
+        position: absolute;
+        top: -60px;
+        right: -60px;
+        width: 320px;
+        height: 320px;
+        border-radius: 50%;
+        background: radial-gradient(circle, rgba(220, 38, 38, 0.25) 0%, rgba(110, 59, 32, 0.05) 70%);
+        pointer-events: none;
+    }
+
+    .cover-bg-decor-2 {
+        position: absolute;
+        bottom: -80px;
+        left: -80px;
+        width: 300px;
+        height: 300px;
+        border-radius: 50%;
+        background: radial-gradient(circle, rgba(148, 77, 41, 0.3) 0%, rgba(0,0,0,0) 70%);
+        pointer-events: none;
+    }
+
+    .cover-tag {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        background: rgba(220, 38, 38, 0.2);
+        border: 1px solid var(--color-red-primary);
+        color: #FCA5A5;
+        padding: 4px 12px;
+        border-radius: 30px;
+        font-size: 8pt;
+        font-weight: 700;
+        letter-spacing: 1px;
+        text-transform: uppercase;
+        width: fit-content;
+    }
+
+    .cover-brand-row {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin-top: 14px;
+    }
+
+    .cover-logo-svg {
+        width: 44px;
+        height: 44px;
+        border-radius: 8px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+    }
+
+    .cover-title-box {
+        margin-top: 6px;
+        margin-bottom: 10px;
+    }
+
+    .cover-app-title {
+        font-size: 30pt;
+        font-weight: 800;
+        letter-spacing: -0.5px;
+        color: #FFFFFF;
+        line-height: 1.1;
+        margin-bottom: 6px;
+    }
+
+    .cover-app-title span {
+        color: #F43F5E;
+    }
+
+    .cover-app-subtitle {
+        font-size: 13pt;
+        color: #EAE1D9;
+        font-weight: 500;
+        line-height: 1.35;
+        max-width: 92%;
+    }
+
+    .cover-pills-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px;
+        margin-top: 12px;
+    }
+
+    .cover-pill {
+        background: rgba(255,255,255,0.08);
+        border: 1px solid rgba(255,255,255,0.16);
+        color: #FAF8F5;
+        padding: 3px 10px;
+        border-radius: 6px;
+        font-size: 8pt;
+        font-weight: 600;
+    }
+
+    .cover-highlights-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
+        margin: 15px 0;
+    }
+
+    .cover-card {
+        background: rgba(26, 20, 17, 0.85);
+        border: 1px solid rgba(148, 77, 41, 0.45);
+        border-radius: 8px;
+        padding: 12px 14px;
+        backdrop-filter: blur(8px);
+        box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+    }
+
+    .cover-card-header {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 9.5pt;
+        font-weight: 700;
+        color: #F87171;
+        margin-bottom: 4px;
+    }
+
+    .cover-card-body {
+        font-size: 8pt;
+        color: #D6C7BF;
+        line-height: 1.4;
+    }
+
+    .cover-meta-box {
+        border-top: 1px solid rgba(255,255,255,0.15);
+        padding-top: 12px;
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-end;
+        font-size: 7.5pt;
+        color: #B8ADA5;
+    }
+
+    .cover-meta-item strong {
+        color: #FAF8F5;
+        display: block;
+        font-size: 8.5pt;
+        margin-top: 2px;
+    }
+
+    /* TYPOGRAPHY & HEADINGS */
+    h1 {
+        font-size: 15.5pt;
+        font-weight: 800;
+        color: var(--color-brown-dark);
+        border-left: 5px solid var(--color-red-primary);
+        padding-left: 8px;
+        margin-bottom: 8px;
+        line-height: 1.2;
+    }
+
+    h2 {
+        font-size: 11pt;
+        font-weight: 700;
+        color: var(--color-brown-primary);
+        margin-top: 10px;
+        margin-bottom: 6px;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+    }
+
+    h3 {
+        font-size: 9.5pt;
+        font-weight: 700;
+        color: #261E1A;
+        margin-top: 8px;
+        margin-bottom: 4px;
+    }
+
+    p {
+        margin-bottom: 6px;
+        color: #38302B;
+        text-align: justify;
+        font-size: 8.8pt;
+    }
+
+    /* CARDS & PANELS */
+    .panel {
+        background: #FFFFFF;
+        border: 1px solid #E4DBD3;
+        border-radius: 7px;
+        padding: 9px 12px;
+        margin-bottom: 8px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+    }
+
+    .panel-dark {
+        background: var(--color-black-surface);
+        border: 1px solid var(--color-brown-light);
+        color: var(--color-text-white);
+        border-radius: 7px;
+        padding: 10px 12px;
+        margin-bottom: 8px;
+    }
+
+    .panel-alert {
+        background: #FEF2F2;
+        border-left: 4px solid var(--color-red-primary);
+        border-top: 1px solid #FEE2E2;
+        border-right: 1px solid #FEE2E2;
+        border-bottom: 1px solid #FEE2E2;
+        border-radius: 0 7px 7px 0;
+        padding: 7px 10px;
+        margin-bottom: 8px;
+    }
+
+    .panel-highlight {
+        background: #FFFBEB;
+        border-left: 4px solid var(--color-amber-warning);
+        border-top: 1px solid #FEF3C7;
+        border-right: 1px solid #FEF3C7;
+        border-bottom: 1px solid #FEF3C7;
+        border-radius: 0 7px 7px 0;
+        padding: 7px 10px;
+        margin-bottom: 8px;
+    }
+
+    /* GRIDS */
+    .grid-2 {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+    }
+
+    .grid-3 {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 8px;
+    }
+
+    /* FLOOR BADGES */
+    .floor-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+        padding: 3px 8px;
+        border-radius: 5px;
+        font-weight: 700;
+        font-size: 8pt;
+        color: #fff;
+    }
+
+    .badge-lt1 { background: #B91C1C; }
+    .badge-lt2 { background: #92400E; }
+    .badge-lt3 { background: #4D7C0F; }
+    .badge-lt4 { background: #1E293B; }
+
+    /* TABLES */
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 5px 0 9px 0;
+        font-size: 8pt;
+        background: #FFFFFF;
+        border-radius: 5px;
+        overflow: hidden;
+        border: 1px solid #E2D8D0;
+    }
+
+    th {
+        background: #2D1D16;
+        color: #FFFFFF;
+        font-weight: 700;
+        text-align: left;
+        padding: 5px 8px;
+        font-size: 8pt;
+        border-bottom: 2px solid var(--color-red-primary);
+    }
+
+    td {
+        padding: 4.5px 8px;
+        border-bottom: 1px solid #EFEAE4;
+        color: #38302B;
+        vertical-align: middle;
+    }
+
+    tr:nth-child(even) td {
+        background: #FAF7F4;
+    }
+
+    .tag-stock {
+        font-family: 'JetBrains Mono', monospace;
+        font-weight: 700;
+        font-size: 7pt;
+        background: #EFE6DF;
+        color: var(--color-brown-dark);
+        padding: 1px 5px;
+        border-radius: 3px;
+        border: 1px solid #DFD0C5;
+    }
+
+    .tag-status-habis {
+        background: #FEE2E2;
+        color: #991B1B;
+        font-weight: 700;
+        padding: 1px 5px;
+        border-radius: 3px;
+        border: 1px solid #FCA5A5;
+        font-size: 7pt;
+    }
+
+    .tag-status-menipis {
+        background: #FEF3C7;
+        color: #92400E;
+        font-weight: 700;
+        padding: 1px 5px;
+        border-radius: 3px;
+        border: 1px solid #FCD34D;
+        font-size: 7pt;
+    }
+
+    .tag-status-aman {
+        background: #D1FAE5;
+        color: #065F46;
+        font-weight: 700;
+        padding: 1px 5px;
+        border-radius: 3px;
+        border: 1px solid #6EE7B7;
+        font-size: 7pt;
+    }
+
+    /* STATUS DOTS */
+    .status-dot {
+        display: inline-block;
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        vertical-align: middle;
+        margin-right: 4px;
+    }
+    .dot-red { background: #DC2626; }
+    .dot-amber { background: #D97706; }
+    .dot-green { background: #10B981; }
+    .dot-blue { background: #3B82F6; }
+
+    /* PHONE WIREFRAME MOCKUPS */
+    .phone-frame {
+        background: #0E0B09;
+        border: 2px solid #48372F;
+        border-radius: 16px;
+        padding: 8px 6px;
+        color: #FAF8F5;
+        font-size: 7pt;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+        height: 295px;
+        display: flex;
+        flex-direction: column;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .phone-notch {
+        width: 50px;
+        height: 6px;
+        background: #000;
+        border-radius: 0 0 5px 5px;
+        margin: -8px auto 5px auto;
+    }
+
+    .phone-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background: #1C1613;
+        padding: 4px 6px;
+        border-radius: 6px;
+        margin-bottom: 5px;
+        border: 1px solid #3F3028;
+    }
+
+    .phone-drawer-btn {
+        background: linear-gradient(135deg, #E11D48, #9F1239);
+        color: #fff;
+        padding: 2px 5px;
+        border-radius: 3px;
+        font-weight: 800;
+        font-size: 7pt;
+        display: flex;
+        align-items: center;
+        gap: 4px;
+        box-shadow: 0 2px 5px rgba(225, 29, 72, 0.4);
+    }
+
+    .phone-content {
+        flex: 1;
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+    }
+
+    .phone-card {
+        background: #201915;
+        border: 1px solid #3A2D26;
+        border-radius: 5px;
+        padding: 5px 6px;
+    }
+
+    .phone-drawer-overlay {
+        position: absolute;
+        top: 20px;
+        left: 6px;
+        bottom: 6px;
+        width: 72%;
+        background: #17110E;
+        border-right: 2px solid #DC2626;
+        border-radius: 6px 0 0 6px;
+        padding: 8px 6px;
+        box-shadow: 4px 0 12px rgba(0,0,0,0.6);
+        z-index: 10;
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+    }
+
+    .drawer-item {
+        padding: 3px 5px;
+        border-radius: 3px;
+        background: #231B17;
+        color: #EAE1D9;
+        font-size: 6.5pt;
+        font-weight: 600;
+        display: flex;
+        align-items: center;
+        gap: 5px;
+    }
+
+    .drawer-item svg {
+        width: 10px;
+        height: 10px;
+        flex-shrink: 0;
+    }
+
+    .drawer-item.active {
+        background: linear-gradient(90deg, #E11D48, #6E3B20);
+        color: #fff;
+    }
+
+    /* CODE BLOCKS */
+    .code-block {
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 6.8pt;
+        background: #120E0C;
+        color: #F5EBE6;
+        padding: 7px 9px;
+        border-radius: 5px;
+        border-left: 3px solid var(--color-brown-light);
+        margin: 4px 0 6px 0;
+        line-height: 1.35;
+        overflow-x: hidden;
+        white-space: pre-wrap;
+    }
+
+    .code-kw { color: #F87171; font-weight: bold; }
+    .code-fn { color: #FCD34D; }
+    .code-str { color: #86EFAC; }
+    .code-cmt { color: #8C827A; font-style: italic; }
+
+    /* CHARTS & VISUALS */
+    .chart-container {
+        background: #181310;
+        border: 1px solid #3B2D26;
+        border-radius: 7px;
+        padding: 8px;
+        color: #fff;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .chart-legend {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px;
+        justify-content: center;
+        margin-top: 6px;
+        font-size: 7pt;
+    }
+
+    .legend-item {
+        display: flex;
+        align-items: center;
+        gap: 3px;
+        color: #D6C7BF;
+    }
+
+    .legend-dot {
+        width: 7px;
+        height: 7px;
+        border-radius: 2px;
+    }
+
+    .color-swatch-box {
+        display: flex;
+        gap: 6px;
+        margin: 6px 0;
+    }
+
+    .color-swatch {
+        flex: 1;
+        padding: 6px;
+        border-radius: 5px;
+        color: #fff;
+        font-size: 7pt;
+        text-align: center;
+        font-weight: 700;
+        border: 1px solid rgba(255,255,255,0.1);
+    }
+</style>
+</head>
+<body>
+
+<!-- HALAMAN 1: COVER -->
+<div class="page">
+    <div class="cover-container">
+        <div class="cover-bg-decor"></div>
+        <div class="cover-bg-decor-2"></div>
+        
+        <div>
+            <div class="cover-tag">
+                <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+                Master Planning & SRS Blueprint
+            </div>
+
+            <div class="cover-brand-row">
+                <!-- OFFICIAL ISTIQOMAH SVG LOGO EMBEDDED -->
+                <svg class="cover-logo-svg" viewBox="0 0 30 30" style="enable-background:new 0 0 30 30;" xml:space="preserve">
+                  <g>
+                    <path style="fill:#2D2D2D;stroke:#FFFFFF;stroke-width:0.6317;stroke-miterlimit:10;" d="M24.51,28.51H5.49c-2.21,0-4-1.79-4-4V5.49c0-2.21,1.79-4,4-4h19.03c2.21,0,4,1.79,4,4v19.03 C28.51,26.72,26.72,28.51,24.51,28.51z"/>
+                    <g>
+                      <path style="fill:#FFFFFF;" d="M15.47,7.1l-1.3,1.85c-0.2,0.29-0.54,0.47-0.9,0.47h-7.1V7.09C6.16,7.1,15.47,7.1,15.47,7.1z"/>
+                      <polygon style="fill:#FFFFFF;" points="24.3,7.1 13.14,22.91 5.7,22.91 16.86,7.1"/>
+                      <path style="fill:#FFFFFF;" d="M14.53,22.91l1.31-1.86c0.2-0.29,0.54-0.47,0.9-0.47h7.09v2.33H14.53z"/>
+                    </g>
+                  </g>
+                </svg>
+                <div style="font-weight: 800; font-size: 11pt; letter-spacing: 1px; color: #FAF8F5;">ISTIQOMAH RETAIL GROUP</div>
+            </div>
+            
+            <div class="cover-title-box">
+                <div class="cover-app-title">ISTIQOMAH <span>STOCK</span></div>
+                <div class="cover-app-subtitle">Perencanaan Lengkap Sistem Aplikasi Mobile Manajemen Inventaris Offline-First Bertingkat 4</div>
+            </div>
+
+            <div class="cover-pills-row">
+                <div class="cover-pill">100% Offline (SQLite Engine)</div>
+                <div class="cover-pill">4 Lantai Terstruktur (L1 s/d L4)</div>
+                <div class="cover-pill">Spot Slot Tracking (Stock 1, 2, dll)</div>
+                <div class="cover-pill">Chart & Analitik Visual</div>
+                <div class="cover-pill">Laporan Stok Habis Otomatis</div>
+                <div class="cover-pill">Tema Coklat-Hitam-Merah</div>
+                <div class="cover-pill">Top-Left Drawer Navigation</div>
+            </div>
+        </div>
+
+        <div class="cover-highlights-grid">
+            <div class="cover-card">
+                <div class="cover-card-header">
+                    <svg width="14" height="14" fill="currentColor" viewBox="0 0 20 20"><path d="M4 4a2 2 0 012-2h8a2 2 0 012 2v12a1 1 0 01-1.581.814L10 13.197l-4.419 3.617A1 1 0 014 16V4z"/></svg>
+                    Zonasi & Hierarki Fisik 4 Lantai
+                </div>
+                <div class="cover-card-body">
+                    Pemisahan halaman independen Lantai 1 (Kebutuhan Sehari-hari), Lantai 2 (Pakaian), Lantai 3 (Perabotan), dan Lantai 4 (Gudang/Buffer) dengan kode slot presisi.
+                </div>
+            </div>
+
+            <div class="cover-card">
+                <div class="cover-card-header">
+                    <svg width="14" height="14" fill="currentColor" viewBox="0 0 20 20"><path d="M2 11a1 1 0 011-1h2a1 1 0 011 1v5a1 1 0 01-1 1H3a1 1 0 01-1-1v-5zM8 7a1 1 0 011-1h2a1 1 0 011 1v9a1 1 0 01-1 1H9a1 1 0 01-1-1V7zM14 4a1 1 0 011-1h2a1 1 0 011 1v12a1 1 0 01-1 1h-2a1 1 0 01-1-1V4z"/></svg>
+                    Visual Analytics & Chart
+                </div>
+                <div class="cover-card-body">
+                    Dashboard visual realtime dengan Donut Chart persebaran stok, Bar Chart produk fast-moving, dan status perputaran barang antar lantai secara offline.
+                </div>
+            </div>
+
+            <div class="cover-card">
+                <div class="cover-card-header">
+                    <svg width="14" height="14" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd"/></svg>
+                    Tracking Stok Habis & Kritis
+                </div>
+                <div class="cover-card-body">
+                    Sistem pemantauan stok menipis (&le; min threshold) dan stok kosong (0 pcs) dengan rekomendasi mutasi restock dari Lantai 4 ke Lantai 1-3.
+                </div>
+            </div>
+
+            <div class="cover-card">
+                <div class="cover-card-header">
+                    <svg width="14" height="14" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h6a1 1 0 110 2H4a1 1 0 01-1-1z" clip-rule="evenodd"/></svg>
+                    UI Elegan & Top-Left Drawer
+                </div>
+                <div class="cover-card-body">
+                    Navigasi drawer kiri atas yang rapi dan responsif, dipadukan palet warna Coklat-Hitam dengan aksen Merah Ruby berkelas untuk kenyamanan mata.
+                </div>
+            </div>
+        </div>
+
+        <div class="cover-meta-box">
+            <div>
+                <span>DOKUMEN PROYEK:</span>
+                <strong>SRS & UI/UX Master Blueprint v1.0</strong>
+            </div>
+            <div>
+                <span>TARGET PLATFORM:</span>
+                <strong>Android & iOS Mobile (Offline-First)</strong>
+            </div>
+            <div>
+                <span>STATUS:</span>
+                <strong style="color: #F87171;">PERENCANAAN MATANG (APPROVED)</strong>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- HALAMAN 2: EXECUTIVE SUMMARY & ARSITEKTUR OFFLINE -->
+<div class="page">
+    <div class="page-header">
+        <div class="page-header-logo">
+            <span class="page-header-badge">ISTIQOMAH STOCK</span>
+            <span>BAB 1: GAMBARAN UMUM & ARSITEKTUR OFFLINE</span>
+        </div>
+        <span>HALAMAN 2</span>
+    </div>
+
+    <h1>1. Ringkasan Eksekutif & Arsitektur Offline</h1>
+
+    <p>
+        <strong>Istiqomah Stock</strong> adalah aplikasi mobile manajemen stok <em>offline-first</em> yang dirancang khusus untuk mengelola operasional gudang dan toko bertingkat 4. Sistem ini menjawab kendala sinyal internet yang tidak stabil di area gudang bawah/atas, kebutuhan audit fisik rak yang instan, serta akurasi mutasi barang antar lantai.
+    </p>
+
+    <div class="grid-2">
+        <div class="panel">
+            <h3>Pilar Utama Sistem Offline-First</h3>
+            <ul style="padding-left: 14px; font-size: 8pt; color: #3D332D; line-height: 1.5;">
+                <li><strong>Zero Dependency on Internet:</strong> Berjalan 100% tanpa koneksi seluler maupun Wi-Fi. Semua data diolah langsung pada CPU dan memori lokal gawai.</li>
+                <li><strong>Zero Latency:</strong> Input mutasi barang, pencarian barcode, dan filter per lantai bekerja instan (&lt; 20ms).</li>
+                <li><strong>Local Backup & Export:</strong> Backup database berkala ke berkas JSON/SQLite terenkripsi di folder penyimpanan perangkat, serta ekspor laporan ke CSV & PDF.</li>
+                <li><strong>Integritas Data Transaksional:</strong> Menggunakan transaksi ACID SQLite untuk mencegah data rusak saat baterai gawai mati mendadak.</li>
+            </ul>
+        </div>
+
+        <div class="panel">
+            <h3>Spesifikasi Teknologi yang Direkomendasikan</h3>
+            <table style="margin: 0; font-size: 7.5pt;">
+                <tr><th style="width: 35%;">Komponen</th><th>Pilihan Rekomendasi</th></tr>
+                <tr><td><strong>Frontend Core</strong></td><td>React Native / Flutter / PWA Container</td></tr>
+                <tr><td><strong>Local Database</strong></td><td>SQLite (via sqlite3 / op-sqlite / Room)</td></tr>
+                <tr><td><strong>State Management</strong></td><td>Zustand / Redux Toolkit / Riverpod</td></tr>
+                <tr><td><strong>Chart Engine</strong></td><td>SVG Native Charts / Victory Native</td></tr>
+                <tr><td><strong>Scanner</strong></td><td>Vision Camera / ML Kit Offline Barcode</td></tr>
+                <tr><td><strong>Export Engine</strong></td><td>PDFKit Local / Print Document Native</td></tr>
+            </table>
+        </div>
+    </div>
+
+    <h2>Diagram Alur Arsitektur Sistem Offline</h2>
+    
+    <div class="panel-dark" style="text-align: center; padding: 10px;">
+        <svg width="100%" height="110" viewBox="0 0 680 110" style="font-family: 'Plus Jakarta Sans', sans-serif;">
+            <!-- UI Layer -->
+            <rect x="10" y="5" width="150" height="98" rx="6" fill="#201915" stroke="#944D29" stroke-width="1.5"/>
+            <text x="85" y="24" fill="#F87171" font-weight="bold" font-size="10" text-anchor="middle">UI / VIEW LAYER</text>
+            <rect x="20" y="32" width="130" height="18" rx="3" fill="#362922"/>
+            <text x="85" y="44" fill="#FAF8F5" font-size="7.5" text-anchor="middle">Drawer Nav (Kiri Atas)</text>
+            <rect x="20" y="54" width="130" height="18" rx="3" fill="#362922"/>
+            <text x="85" y="66" fill="#FAF8F5" font-size="7.5" text-anchor="middle">Pages Lantai 1 - 4</text>
+            <rect x="20" y="76" width="130" height="18" rx="3" fill="#362922"/>
+            <text x="85" y="88" fill="#FAF8F5" font-size="7.5" text-anchor="middle">Chart & Out-of-Stock</text>
+
+            <!-- Arrow 1 -->
+            <path d="M 165 54 L 195 54" stroke="#DC2626" stroke-width="2"/>
+
+            <!-- Business Logic -->
+            <rect x="200" y="5" width="155" height="98" rx="6" fill="#201915" stroke="#944D29" stroke-width="1.5"/>
+            <text x="277" y="24" fill="#F87171" font-weight="bold" font-size="10" text-anchor="middle">STATE & CONTROLLER</text>
+            <rect x="210" y="32" width="135" height="18" rx="3" fill="#362922"/>
+            <text x="277" y="44" fill="#FAF8F5" font-size="7.5" text-anchor="middle">Stock Mutation Engine</text>
+            <rect x="210" y="54" width="135" height="18" rx="3" fill="#362922"/>
+            <text x="277" y="66" fill="#FAF8F5" font-size="7.5" text-anchor="middle">Threshold Alert Logic</text>
+            <rect x="210" y="76" width="135" height="18" rx="3" fill="#362922"/>
+            <text x="277" y="88" fill="#FAF8F5" font-size="7.5" text-anchor="middle">Aggregation & Analytics</text>
+
+            <!-- Arrow 2 -->
+            <path d="M 360 54 L 390 54" stroke="#DC2626" stroke-width="2"/>
+
+            <!-- Database Layer -->
+            <rect x="395" y="5" width="140" height="98" rx="6" fill="#201915" stroke="#944D29" stroke-width="1.5"/>
+            <text x="465" y="24" fill="#F87171" font-weight="bold" font-size="10" text-anchor="middle">LOCAL STORAGE</text>
+            <rect x="405" y="32" width="120" height="18" rx="3" fill="#6E3B20"/>
+            <text x="465" y="44" fill="#FAF8F5" font-size="7.5" font-weight="bold" text-anchor="middle">SQLite Engine</text>
+            <rect x="405" y="54" width="120" height="18" rx="3" fill="#362922"/>
+            <text x="465" y="66" fill="#FAF8F5" font-size="7.5" text-anchor="middle">ACID WAL Mode</text>
+            <rect x="405" y="76" width="120" height="18" rx="3" fill="#362922"/>
+            <text x="465" y="88" fill="#FAF8F5" font-size="7.5" text-anchor="middle">Indexed SKU/Slot</text>
+
+            <!-- Arrow 3 -->
+            <path d="M 540 54 L 565 54" stroke="#DC2626" stroke-width="2"/>
+
+            <!-- File Storage -->
+            <rect x="570" y="5" width="100" height="98" rx="6" fill="#201915" stroke="#944D29" stroke-width="1.5"/>
+            <text x="620" y="24" fill="#F87171" font-weight="bold" font-size="9.5" text-anchor="middle">BACKUP/FILE</text>
+            <rect x="578" y="32" width="84" height="18" rx="3" fill="#362922"/>
+            <text x="620" y="44" fill="#FAF8F5" font-size="7.5" text-anchor="middle">.JSON Backup</text>
+            <rect x="578" y="54" width="84" height="18" rx="3" fill="#362922"/>
+            <text x="620" y="66" fill="#FAF8F5" font-size="7.5" text-anchor="middle">.PDF Reports</text>
+            <rect x="578" y="76" width="84" height="18" rx="3" fill="#362922"/>
+            <text x="620" y="88" fill="#FAF8F5" font-size="7.5" text-anchor="middle">.CSV Exports</text>
+        </svg>
+    </div>
+
+    <div class="panel-highlight">
+        <strong>Keunggulan Desain Offline-First pada Istiqomah Stock:</strong>
+        <p style="margin-top: 2px; font-size: 8pt; color: #78350F;">
+            Pengguna tidak akan pernah mengalami loading putus atau layar blank karena jaringan hilang. Data tersimpan di storage internal gawai dengan performa eksekusi instan.
+        </p>
+    </div>
+
+    <div class="page-footer">
+        <span>Istiqomah Stock — Master Blueprint Specification</span>
+        <span>Dokumen Rahasia Internal</span>
+    </div>
+</div>
+
+<!-- HALAMAN 3: LANTAI 1 & LANTAI 2 MAPPING -->
+<div class="page">
+    <div class="page-header">
+        <div class="page-header-logo">
+            <span class="page-header-badge">ISTIQOMAH STOCK</span>
+            <span>BAB 2: STRUKTUR ZONASI LANTAI 1 & LANTAI 2</span>
+        </div>
+        <span>HALAMAN 3</span>
+    </div>
+
+    <h1>2. Detail Tata Letak Zonasi: Lantai 1 & Lantai 2</h1>
+    <p>Setiap lantai dirancang dengan pemetaan rak/slot terstandar untuk mempermudah staf dalam menempatkan, mencari, dan melakukan audit stok barang fisik.</p>
+
+    <!-- LANTAI 1 -->
+    <div style="display: flex; align-items: center; justify-content: space-between; margin-top: 6px;">
+        <span class="floor-badge badge-lt1">LANTAI 1: KEBUTUHAN SEHARI-HARI (FAST-MOVING CONSUMER GOODS)</span>
+        <span style="font-size: 7.5pt; font-weight: 700; color: #B91C1C;">ZONA UTAMA / GROUND FLOOR</span>
+    </div>
+
+    <table>
+        <thead>
+            <tr>
+                <th style="width: 14%;">Slot ID</th>
+                <th style="width: 25%;">Nama Kategori Slot</th>
+                <th style="width: 35%;">Contoh Item Barang</th>
+                <th style="width: 12%;">Satuan</th>
+                <th style="width: 14%;">Min/Max Buffer</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><span class="tag-stock">STOCK 1</span></td>
+                <td><strong>Pempes & Popok Bayi</strong></td>
+                <td>MamyPoko S/M/L, Sweety Gold, Merries Pants, Pampers Premium</td>
+                <td>Pack, Bal</td>
+                <td>10 / 120 Pack</td>
+            </tr>
+            <tr>
+                <td><span class="tag-stock">STOCK 2</span></td>
+                <td><strong>Sabun, Sampo & Mandi</strong></td>
+                <td>Lifebuoy Cair, Biore Bodywash, Sunsilk 170ml, Pepsodent 190g</td>
+                <td>Pcs, Botol</td>
+                <td>24 / 250 Pcs</td>
+            </tr>
+            <tr>
+                <td><span class="tag-stock">STOCK 3</span></td>
+                <td><strong>Minyak Goreng & Bumbu</strong></td>
+                <td>Bimoli 2L, Filma 2L, Royco Ayam 230g, Kecap Bango 520ml</td>
+                <td>Pcs, Jerigen</td>
+                <td>15 / 150 Pcs</td>
+            </tr>
+            <tr>
+                <td><span class="tag-stock">STOCK 4</span></td>
+                <td><strong>Beras, Gula & Sembako</strong></td>
+                <td>Beras Pandan Wangi 5kg, Gulaku 1kg, Segitiga Biru 1kg</td>
+                <td>Karung, Kg</td>
+                <td>20 / 200 Sak</td>
+            </tr>
+            <tr>
+                <td><span class="tag-stock">STOCK 5</span></td>
+                <td><strong>Minuman & Snack</strong></td>
+                <td>Teh Botol 350ml, Indomilk UHT, Chitato 68g, Roma Biskuit</td>
+                <td>Dus, Pcs</td>
+                <td>30 / 300 Pcs</td>
+            </tr>
+            <tr>
+                <td><span class="tag-stock">STOCK 6</span></td>
+                <td><strong>Deterjen & Pembersih</strong></td>
+                <td>Rinso Molto 770g, Downy Pouch 650ml, SoKlin Lantai 780ml</td>
+                <td>Pouch, Dus</td>
+                <td>15 / 180 Pcs</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <!-- LANTAI 2 -->
+    <div style="display: flex; align-items: center; justify-content: space-between; margin-top: 8px;">
+        <span class="floor-badge badge-lt2">LANTAI 2: PAKAIAN & FASHION (APPAREL & TEXTILE)</span>
+        <span style="font-size: 7.5pt; font-weight: 700; color: #92400E;">ZONA BUSANA & AKSESORIS</span>
+    </div>
+
+    <table>
+        <thead>
+            <tr>
+                <th style="width: 14%;">Slot ID</th>
+                <th style="width: 25%;">Nama Kategori Slot</th>
+                <th style="width: 35%;">Contoh Item Barang</th>
+                <th style="width: 12%;">Satuan</th>
+                <th style="width: 14%;">Min/Max Buffer</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><span class="tag-stock">STOCK 1</span></td>
+                <td><strong>Pakaian Pria Dewasa</strong></td>
+                <td>Kemeja Flannel L/XL, Kaos Polos Combed 30s, Celana Chino</td>
+                <td>Pcs, Lusin</td>
+                <td>12 / 100 Pcs</td>
+            </tr>
+            <tr>
+                <td><span class="tag-stock">STOCK 2</span></td>
+                <td><strong>Pakaian Wanita Dewasa</strong></td>
+                <td>Blouse Rayon, Tunik Motif, Rok Plisket, Celana Kulot Knit</td>
+                <td>Pcs, Lusin</td>
+                <td>15 / 150 Pcs</td>
+            </tr>
+            <tr>
+                <td><span class="tag-stock">STOCK 3</span></td>
+                <td><strong>Pakaian Anak & Balita</strong></td>
+                <td>Setelan Harian Anak, Kaos Karakter LED, Dress Bayi Katun</td>
+                <td>Set, Lusin</td>
+                <td>20 / 200 Set</td>
+            </tr>
+            <tr>
+                <td><span class="tag-stock">STOCK 4</span></td>
+                <td><strong>Busana Muslim & Gamis</strong></td>
+                <td>Gamis Syar'i Set Khimar, Koko Katun Bordir, Sarung Tenun</td>
+                <td>Pcs, Dus</td>
+                <td>10 / 120 Pcs</td>
+            </tr>
+            <tr>
+                <td><span class="tag-stock">STOCK 5</span></td>
+                <td><strong>Hijab, Kerudung & Ciput</strong></td>
+                <td>Pashmina Ceruty Baby Doll, Segiempat Voal Premium, Inner Rajut</td>
+                <td>Pcs, Kodian</td>
+                <td>25 / 300 Pcs</td>
+            </tr>
+            <tr>
+                <td><span class="tag-stock">STOCK 6</span></td>
+                <td><strong>Pakaian Dalam & Kaus Kaki</strong></td>
+                <td>Singlet Pria Rider, Boxer Katun, Kaos Kaki Muslimah Anti Licin</td>
+                <td>Pack, Lusin</td>
+                <td>20 / 250 Pack</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="panel" style="margin-top: 4px;">
+        <strong>Aturan Khusus Mutasi Display Lantai 1 & 2:</strong>
+        <p style="margin: 2px 0 0 0; font-size: 7.8pt; color: #5C4D44;">
+            Barang di Lantai 1 & 2 merupakan unit display aktif yang sering mengalami pengurangan cepat. Ketika level stok mencapai <em>Min Buffer</em>, aplikasi memicu notifikasi <strong>"Rekomendasi Transfer dari Gudang Lantai 4"</strong> ke slot terkait.
+        </p>
+    </div>
+
+    <div class="page-footer">
+        <span>Istiqomah Stock — Master Blueprint Specification</span>
+        <span>Dokumen Rahasia Internal</span>
+    </div>
+</div>
+
+<!-- HALAMAN 4: LANTAI 3 & LANTAI 4 MAPPING -->
+<div class="page">
+    <div class="page-header">
+        <div class="page-header-logo">
+            <span class="page-header-badge">ISTIQOMAH STOCK</span>
+            <span>BAB 2 (LANJUTAN): ZONASI LANTAI 3 & LANTAI 4</span>
+        </div>
+        <span>HALAMAN 4</span>
+    </div>
+
+    <h1>2. Detail Tata Letak Zonasi: Lantai 3 & Lantai 4</h1>
+
+    <!-- LANTAI 3 -->
+    <div style="display: flex; align-items: center; justify-content: space-between; margin-top: 4px;">
+        <span class="floor-badge badge-lt3">LANTAI 3: PERABOTAN RUMAH TANGGA & ELEKTRONIK RINGAN</span>
+        <span style="font-size: 7.5pt; font-weight: 700; color: #4D7C0F;">ZONA PERABOTAN & HOME LIVING</span>
+    </div>
+
+    <table>
+        <thead>
+            <tr>
+                <th style="width: 14%;">Slot ID</th>
+                <th style="width: 25%;">Nama Kategori Slot</th>
+                <th style="width: 35%;">Contoh Item Barang</th>
+                <th style="width: 12%;">Satuan</th>
+                <th style="width: 14%;">Min/Max Buffer</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><span class="tag-stock">STOCK 1</span></td>
+                <td><strong>Alat Masak & Dapur</strong></td>
+                <td>Wajan Teflon Anti Lengket 24cm, Panci Sup Stainless, Pisau Set</td>
+                <td>Pcs, Set</td>
+                <td>6 / 50 Pcs</td>
+            </tr>
+            <tr>
+                <td><span class="tag-stock">STOCK 2</span></td>
+                <td><strong>Wadah Plastik & Toples</strong></td>
+                <td>Toples Seal Kedap Udara 1.5L, Kotak Bekal BPA Free, Baskom</td>
+                <td>Set, Lusin</td>
+                <td>12 / 120 Set</td>
+            </tr>
+            <tr>
+                <td><span class="tag-stock">STOCK 3</span></td>
+                <td><strong>Elektronik & Lampu</strong></td>
+                <td>Lampu LED 15W Philips, Kipas Angin Mini Meja, Blender Portable</td>
+                <td>Pcs, Unit</td>
+                <td>8 / 60 Unit</td>
+            </tr>
+            <tr>
+                <td><span class="tag-stock">STOCK 4</span></td>
+                <td><strong>Alat Kebersihan Rumah</strong></td>
+                <td>Sapu Ijuk Super, Pel Putar 360 Spin Mop, Ember Lipat 10L</td>
+                <td>Pcs, Set</td>
+                <td>10 / 80 Pcs</td>
+            </tr>
+            <tr>
+                <td><span class="tag-stock">STOCK 5</span></td>
+                <td><strong>Rak & Organizer Ringan</strong></td>
+                <td>Rak Sepatu Susun 4, Keranjang Laundry Jaring, Gantungan Baju Hanger</td>
+                <td>Unit, Pack</td>
+                <td>8 / 75 Unit</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <!-- LANTAI 4 -->
+    <div style="display: flex; align-items: center; justify-content: space-between; margin-top: 8px;">
+        <span class="floor-badge badge-lt4">LANTAI 4: GUDANG UTAMA & BUFFER STOCK INDUK</span>
+        <span style="font-size: 7.5pt; font-weight: 700; color: #1E293B;">ZONA LOGISTIK & RESTOCKING</span>
+    </div>
+
+    <table>
+        <thead>
+            <tr>
+                <th style="width: 14%;">Slot ID</th>
+                <th style="width: 25%;">Nama Kategori Slot</th>
+                <th style="width: 35%;">Fungsi & Tipe Muatan Gudang</th>
+                <th style="width: 12%;">Satuan</th>
+                <th style="width: 14%;">Kapasitas Slot</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><span class="tag-stock">STOCK 1</span></td>
+                <td><strong>Buffer Sembako & Dry Goods</strong></td>
+                <td>Penyimpanan bal sembako, kartonan minyak, karungan beras</td>
+                <td>Karton, Karung</td>
+                <td>500 Karton</td>
+            </tr>
+            <tr>
+                <td><span class="tag-stock">STOCK 2</span></td>
+                <td><strong>Buffer Toiletries & Kimia</strong></td>
+                <td>Penyimpanan dus sabun, sampo, deterjen cair & pembersih</td>
+                <td>Dus, Bal</td>
+                <td>400 Dus</td>
+            </tr>
+            <tr>
+                <td><span class="tag-stock">STOCK 3</span></td>
+                <td><strong>Buffer Pakaian & Tekstil</strong></td>
+                <td>Penyimpanan karung kodi pakaian, stok cadangan fashion</td>
+                <td>Kodi, Karung</td>
+                <td>350 Karung</td>
+            </tr>
+            <tr>
+                <td><span class="tag-stock">STOCK 4</span></td>
+                <td><strong>Buffer Perabotan Kardusan</strong></td>
+                <td>Penyimpanan box perabot besar, elektronik & organizer</td>
+                <td>Box, Koli</td>
+                <td>250 Box</td>
+            </tr>
+            <tr>
+                <td><span class="tag-stock">STOCK 5</span></td>
+                <td><strong>Inbound Staging Area</strong></td>
+                <td>Area penerimaan barang baru masuk dari ekspedisi/supplier (Unboxing)</td>
+                <td>Lot / Pallet</td>
+                <td>10 Pallet Area</td>
+            </tr>
+            <tr>
+                <td><span class="tag-stock">STOCK 6</span></td>
+                <td><strong>Karantina Retur / Rusak</strong></td>
+                <td>Area isolasi barang cacat/rusak/expired untuk proses retur pabrik</td>
+                <td>Pcs / Koli</td>
+                <td>50 Koli</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="panel-alert" style="margin-top: 4px;">
+        <strong style="color: #991B1B;">Logika Transfer Otomatis Lantai 4 (Gudang) ➔ Lantai 1, 2, 3:</strong>
+        <p style="margin: 2px 0 0 0; font-size: 7.8pt; color: #7F1D1D;">
+            Stok yang masuk ke Lantai 4 (Inbound) akan menambah persediaan buffer induk. Ketika staf display lantai 1-3 melakukan mutasi keluar, aplikasi akan menampilkan opsi <em>"Tarik Stok dari Lantai 4"</em> untuk menjaga sinkronisasi fisik barang.
+        </p>
+    </div>
+
+    <div class="page-footer">
+        <span>Istiqomah Stock — Master Blueprint Specification</span>
+        <span>Dokumen Rahasia Internal</span>
+    </div>
+</div>
+
+<!-- HALAMAN 5: DESAIN UI/UX & TOP-LEFT DRAWER -->
+<div class="page">
+    <div class="page-header">
+        <div class="page-header-logo">
+            <span class="page-header-badge">ISTIQOMAH STOCK</span>
+            <span>BAB 3: DESAIN UI/UX & SISTEM NAVIGASI DRAWER</span>
+        </div>
+        <span>HALAMAN 5</span>
+    </div>
+
+    <h1>3. Desain UI/UX & Sistem Navigasi Drawer Kiri Atas</h1>
+    <p>
+        Antarmuka Istiqomah Stock dirancang dengan nuansa warna <strong>Coklat Hangat, Hitam Obsidian, dan Aksen Merah Ruby</strong>. Tata letak memprioritaskan kenyamanan genggaman satu tangan (thumb zone) dan kejelasan visual bagi staf operasional.
+    </p>
+
+    <!-- PALET WARNA -->
+    <h3>Palet Warna Resmi (Design Tokens)</h3>
+    <div class="color-swatch-box">
+        <div class="color-swatch" style="background: #090706;">Obsidian Black<br><span style="font-size:6.5pt; opacity:0.8;">#090706</span></div>
+        <div class="color-swatch" style="background: #201915;">Dark Charcoal<br><span style="font-size:6.5pt; opacity:0.8;">#201915</span></div>
+        <div class="color-swatch" style="background: #6E3B20;">Mocha Brown<br><span style="font-size:6.5pt; opacity:0.8;">#6E3B20</span></div>
+        <div class="color-swatch" style="background: #DC2626;">Ruby Red<br><span style="font-size:6.5pt; opacity:0.8;">#DC2626</span></div>
+        <div class="color-swatch" style="background: #D97706;">Amber Alert<br><span style="font-size:6.5pt; opacity:0.8;">#D97706</span></div>
+        <div class="color-swatch" style="background: #FAF8F5; color:#090706; border:1px solid #ddd;">Cream White<br><span style="font-size:6.5pt;">#FAF8F5</span></div>
+    </div>
+
+    <!-- WIREFRAME MOCKUPS -->
+    <h3 style="margin-top: 10px;">Ilustrasi Wireframe Antarmuka Mobile</h3>
+    <div class="grid-3" style="margin-top: 6px;">
+        
+        <!-- MOCKUP 1: DRAWER MENU TERBUKA -->
+        <div class="phone-frame">
+            <div class="phone-notch"></div>
+            <div class="phone-header">
+                <div class="phone-drawer-btn">
+                    <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+                    MENU
+                </div>
+                <div style="font-weight: 700; color: #F5EBE6; font-size: 7.5pt;">Istiqomah Stock</div>
+                <div style="color: #F87171; font-size: 7.5pt; font-weight:700;">Alert (3)</div>
+            </div>
+            <div class="phone-content" style="opacity: 0.25;">
+                <div class="phone-card">Lantai 1 Overview</div>
+                <div class="phone-card">Stock Cards Grid</div>
+            </div>
+            
+            <!-- DRAWER OVERLAY -->
+            <div class="phone-drawer-overlay">
+                <div style="display: flex; align-items: center; gap: 5px; border-bottom: 1px solid #382D27; padding-bottom: 4px; margin-bottom: 3px;">
+                    <!-- MINI LOGO IN DRAWER -->
+                    <svg width="16" height="16" viewBox="0 0 30 30" style="border-radius:3px;">
+                      <path style="fill:#2D2D2D;stroke:#FFFFFF;stroke-width:0.6;" d="M24.51,28.51H5.49c-2.21,0-4-1.79-4-4V5.49c0-2.21,1.79-4,4-4h19.03c2.21,0,4,1.79,4,4v19.03 C28.51,26.72,26.72,28.51,24.51,28.51z"/>
+                      <polygon style="fill:#FFFFFF;" points="24.3,7.1 13.14,22.91 5.7,22.91 16.86,7.1"/>
+                    </svg>
+                    <div>
+                        <div style="font-weight: 800; font-size: 7pt; color: #fff;">ISTIQOMAH STOCK</div>
+                        <div style="font-size: 5.5pt; color: #86EFAC;">Offline Mode Active</div>
+                    </div>
+                </div>
+                <div class="drawer-item active">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
+                    <span>Dashboard & Chart</span>
+                </div>
+                <div class="drawer-item">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path></svg>
+                    <span>Lantai 1: Kebutuhan</span>
+                </div>
+                <div class="drawer-item">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.38 3.46L16 2a4 4 0 0 1-8 0L3.62 3.46a2 2 0 0 0-1.34 2.23l.58 3.5a2 2 0 0 0 1.25 1.55L7 12v9a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1v-9l2.89-1.26a2 2 0 0 0 1.25-1.55l.58-3.5a2 2 0 0 0-1.34-2.23z"></path></svg>
+                    <span>Lantai 2: Pakaian</span>
+                </div>
+                <div class="drawer-item">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path></svg>
+                    <span>Lantai 3: Perabotan</span>
+                </div>
+                <div class="drawer-item">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path></svg>
+                    <span>Lantai 4: Gudang</span>
+                </div>
+                <div class="drawer-item" style="border-left: 2px solid #DC2626; color: #FCA5A5;">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path></svg>
+                    <span>Laporan Stok Habis</span>
+                </div>
+                <div class="drawer-item">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="17 1 21 5 17 9"></polyline><path d="M3 11V9a4 4 0 0 1 4-4h14"></path></svg>
+                    <span>Mutasi Masuk/Keluar</span>
+                </div>
+                <div class="drawer-item">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><ellipse cx="12" cy="5" rx="9" ry="3"></ellipse></svg>
+                    <span>Backup & Pengaturan</span>
+                </div>
+                <div style="margin-top: auto; font-size: 5.5pt; color: #7D726A; text-align: center;">v1.0.0-offline</div>
+            </div>
+        </div>
+
+        <!-- MOCKUP 2: HALAMAN LANTAI 1 -->
+        <div class="phone-frame">
+            <div class="phone-notch"></div>
+            <div class="phone-header">
+                <div class="phone-drawer-btn">
+                    <svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+                </div>
+                <div style="font-weight: 700; color: #F5EBE6; font-size: 7.5pt;">Lantai 1 (Kebutuhan)</div>
+                <div style="background: #1C1613; border: 1px solid #3F3028; padding: 2px 5px; border-radius: 3px; font-size: 6.5pt;">Cari SKU...</div>
+            </div>
+            
+            <!-- SLOT TABS -->
+            <div style="display: flex; gap: 3px; overflow: hidden; margin-bottom: 4px;">
+                <div style="background: #DC2626; color: #fff; padding: 2px 4px; border-radius: 3px; font-size: 6pt; font-weight: 700;">Semua</div>
+                <div style="background: #231B17; border: 1px solid #3B2E27; color: #D6C7BF; padding: 2px 4px; border-radius: 3px; font-size: 6pt;">Stock 1 (Pempes)</div>
+                <div style="background: #231B17; border: 1px solid #3B2E27; color: #D6C7BF; padding: 2px 4px; border-radius: 3px; font-size: 6pt;">Stock 2 (Sabun)</div>
+            </div>
+
+            <!-- ITEM CARDS -->
+            <div class="phone-content">
+                <div class="phone-card" style="border-left: 3px solid #10B981;">
+                    <div style="display: flex; justify-content: space-between; font-weight: 700;">
+                        <span>MamyPoko Pants M34</span>
+                        <span style="color: #10B981; font-family:'JetBrains Mono';">48 Pack</span>
+                    </div>
+                    <div style="font-size: 6pt; color: #A8A29E; display: flex; justify-content: space-between; margin-top: 2px;">
+                        <span>Rak 1A • SKU: PMP-001</span>
+                        <span>Aman (>10)</span>
+                    </div>
+                </div>
+
+                <div class="phone-card" style="border-left: 3px solid #D97706;">
+                    <div style="display: flex; justify-content: space-between; font-weight: 700;">
+                        <span>Lifebuoy Lemon 450ml</span>
+                        <span style="color: #FBBF24; font-family:'JetBrains Mono';">6 Pcs</span>
+                    </div>
+                    <div style="font-size: 6pt; color: #A8A29E; display: flex; justify-content: space-between; margin-top: 2px;">
+                        <span>Rak 2B • SKU: SBN-004</span>
+                        <span style="color: #FCD34D;">Menipis (Min: 12)</span>
+                    </div>
+                </div>
+
+                <div class="phone-card" style="border-left: 3px solid #DC2626; background: #2A1717;">
+                    <div style="display: flex; justify-content: space-between; font-weight: 700;">
+                        <span>Bimoli Minyak 2L</span>
+                        <span style="color: #F87171; font-family:'JetBrains Mono';">0 Pcs</span>
+                    </div>
+                    <div style="font-size: 6pt; color: #FCA5A5; display: flex; justify-content: space-between; margin-top: 2px;">
+                        <span>Rak 3A • SKU: MYK-002</span>
+                        <span style="font-weight: 700;">HABIS (Restock)</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div style="background: linear-gradient(135deg, #E11D48, #6E3B20); color: #fff; padding: 4px; text-align: center; border-radius: 4px; font-weight: 700; font-size: 7pt; margin-top: 3px; box-shadow: 0 2px 6px rgba(225,29,72,0.4);">
+                + Tambah Transaksi / Scan
+            </div>
+        </div>
+
+        <!-- MOCKUP 3: MODAL IN/OUT STOCK -->
+        <div class="phone-frame">
+            <div class="phone-notch"></div>
+            <div class="phone-header">
+                <div class="phone-drawer-btn">
+                    <svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+                </div>
+                <div style="font-weight: 700; color: #F5EBE6; font-size: 7.5pt;">Update Stok Barang</div>
+                <div style="color: #F87171; font-weight:bold;">✕</div>
+            </div>
+            
+            <div class="phone-content" style="background: #17110E; padding: 5px; border-radius: 5px;">
+                <div style="font-weight: 700; font-size: 7.5pt; color: #FAF8F5;">Bimoli Minyak Goreng 2L</div>
+                <div style="font-size: 6pt; color: #A8A29E; margin-bottom: 5px;">Lantai 1 • Stock 3: Minyak & Bumbu</div>
+                
+                <div style="display: flex; gap: 3px; margin-bottom: 6px;">
+                    <div style="flex:1; background: #15803D; color:#fff; text-align:center; padding: 3px; border-radius: 3px; font-weight: 700; font-size: 6.5pt;">+ MASUK (IN)</div>
+                    <div style="flex:1; background: #DC2626; color:#fff; text-align:center; padding: 3px; border-radius: 3px; font-weight: 700; font-size: 6.5pt;">- KELUAR (OUT)</div>
+                </div>
+
+                <div style="background: #201915; padding: 5px; border-radius: 4px; border: 1px solid #3A2D26; margin-bottom: 5px;">
+                    <div style="font-size: 6pt; color: #B8ADA5;">Ambil dari Lantai 4 (Gudang):</div>
+                    <div style="font-size: 7pt; font-weight: 700; color: #86EFAC;">Stok Tersedia di L4: 120 Pcs</div>
+                </div>
+
+                <div style="background: #201915; padding: 5px; border-radius: 4px; border: 1px solid #3A2D26; margin-bottom: 5px;">
+                    <div style="font-size: 6pt; color: #B8ADA5;">Jumlah Mutasi (Pcs):</div>
+                    <div style="font-size: 10pt; font-weight: 800; color: #fff; text-align: center; font-family:'JetBrains Mono';">24</div>
+                </div>
+
+                <div style="background: linear-gradient(135deg, #E11D48, #BE123C); color: #fff; padding: 4px; text-align: center; border-radius: 4px; font-weight: 700; font-size: 7pt; margin-top: auto; box-shadow: 0 2px 6px rgba(225,29,72,0.4);">
+                    Simpan Mutasi Offline
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="page-footer">
+        <span>Istiqomah Stock — Master Blueprint Specification</span>
+        <span>Dokumen Rahasia Internal</span>
+    </div>
+</div>
+
+<!-- HALAMAN 6: TRACKING STOK HABIS & SISTEM ALERT -->
+<div class="page">
+    <div class="page-header">
+        <div class="page-header-logo">
+            <span class="page-header-badge">ISTIQOMAH STOCK</span>
+            <span>BAB 4: SISTEM TRACKING & LAPORAN STOK HABIS</span>
+        </div>
+        <span>HALAMAN 6</span>
+    </div>
+
+    <h1>4. Modul Pelacakan Stok Habis & Rekomendasi Restock</h1>
+    <p>
+        Modul ini berfungsi sebagai sentra peringatan dini untuk mencegah terjadinya kekosongan barang (<em>stock-out</em>). Sistem secara cerdas membedakan barang yang habis di lantai display (Lantai 1-3) namun masih tersedia di Gudang (Lantai 4), dengan barang yang memang habis total di seluruh toko.
+    </p>
+
+    <!-- STATUS MATRIX -->
+    <h3>Matriks Ambang Batas Stok (Stock Threshold Matrix)</h3>
+    <table>
+        <thead>
+            <tr>
+                <th style="width: 16%;">Status Level</th>
+                <th style="width: 26%;">Kondisi Kuantitas</th>
+                <th style="width: 36%;">Aksi Sistem Otomatis</th>
+                <th style="width: 22%;">Indikator UI</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><span class="tag-status-habis">OUT OF STOCK</span></td>
+                <td><strong>Stok = 0 Pcs</strong> di lantai display</td>
+                <td>Kirim alert kritis, buat tiket darurat penarikan barang dari Gudang Lt 4 / PO supplier.</td>
+                <td><span style="color:#DC2626; font-weight:bold;"><span class="status-dot dot-red"></span>Badge Merah Kritis</span></td>
+            </tr>
+            <tr>
+                <td><span class="tag-status-menipis">LOW STOCK</span></td>
+                <td><strong>0 &lt; Stok &le; Min Threshold</strong></td>
+                <td>Tampilkan di daftar prioritas restock harian; hitung estimasi habis (lead time).</td>
+                <td><span style="color:#D97706; font-weight:bold;"><span class="status-dot dot-amber"></span>Badge Kuning Amber</span></td>
+            </tr>
+            <tr>
+                <td><span class="tag-status-aman">HEALTHY</span></td>
+                <td><strong>Min &lt; Stok &le; Max Capacity</strong></td>
+                <td>Stok berada pada kapasitas ideal dan siap melayani transaksi pelanggan.</td>
+                <td><span style="color:#10B981; font-weight:bold;"><span class="status-dot dot-green"></span>Badge Hijau Emerald</span></td>
+            </tr>
+            <tr>
+                <td><span class="tag-stock">OVERSTOCK</span></td>
+                <td><strong>Stok &gt; Max Capacity</strong></td>
+                <td>Peringatan penumpukan barang pada rak display; sarankan pemindahan ke Lt 4.</td>
+                <td><span style="color:#3B82F6; font-weight:bold;"><span class="status-dot dot-blue"></span>Badge Biru Info</span></td>
+            </tr>
+        </tbody>
+    </table>
+
+    <!-- CONTOH LAPORAN STOK KRITIS -->
+    <h3>Format Laporan Stok Habis & Kritis (Tracking Report)</h3>
+    <table>
+        <thead>
+            <tr>
+                <th>Lokasi Lantai</th>
+                <th>Kode Slot</th>
+                <th>Nama Produk & SKU</th>
+                <th>Stok Toko</th>
+                <th>Stok Gudang (L4)</th>
+                <th>Rekomendasi Aksi</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr style="background: #FFF5F5;">
+                <td><strong>Lantai 1</strong></td>
+                <td><span class="tag-stock">Stock 3 (Minyak)</span></td>
+                <td>Bimoli 2L Refill (MYK-002)</td>
+                <td><span class="tag-status-habis">0 Pcs (HABIS)</span></td>
+                <td><strong style="color: #065F46;">120 Pcs</strong></td>
+                <td><strong>Transfer 24 Pcs dari L4</strong></td>
+            </tr>
+            <tr style="background: #FFF5F5;">
+                <td><strong>Lantai 1</strong></td>
+                <td><span class="tag-stock">Stock 1 (Pempes)</span></td>
+                <td>Sweety Silver Pants L28 (PMP-008)</td>
+                <td><span class="tag-status-habis">0 Pcs (HABIS)</span></td>
+                <td><span class="tag-status-habis">0 Pcs (KOSONG)</span></td>
+                <td><strong style="color:#DC2626;">Buat PO Supplier (Urgent)</strong></td>
+            </tr>
+            <tr style="background: #FFFDF0;">
+                <td><strong>Lantai 2</strong></td>
+                <td><span class="tag-stock">Stock 4 (Busana)</span></td>
+                <td>Gamis Syar'i Set Hitam M (GMS-014)</td>
+                <td><span class="tag-status-menipis">2 Pcs (Menipis)</span></td>
+                <td><strong style="color: #065F46;">18 Pcs</strong></td>
+                <td>Transfer 10 Pcs dari L4</td>
+            </tr>
+            <tr style="background: #FFFDF0;">
+                <td><strong>Lantai 3</strong></td>
+                <td><span class="tag-stock">Stock 3 (Lampu)</span></td>
+                <td>Lampu LED 15W Putih (LMP-003)</td>
+                <td><span class="tag-status-menipis">3 Pcs (Menipis)</span></td>
+                <td><strong style="color: #065F46;">25 Pcs</strong></td>
+                <td>Transfer 12 Pcs dari L4</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="grid-2">
+        <div class="panel">
+            <h3>Fitur Ekspor & Cetak Offline</h3>
+            <p style="font-size: 7.8pt; color: #4A3E37; margin: 0;">
+                Laporan stok habis dapat langsung dicetak menjadi lembar PDF Surat Permintaan Barang (SPB) antar lantai atau diekspor ke format CSV secara lokal untuk dibagikan melalui Bluetooth / WhatsApp tanpa internet.
+            </p>
+        </div>
+        <div class="panel">
+            <h3>Kalkulasi Kebutuhan Restock Otomatis</h3>
+            <p style="font-size: 7.8pt; color: #4A3E37; margin: 0;">
+                Rumus pemenuhan: <br>
+                <code>Qty Restock = Kapasitas Maksimal - Stok Saat Ini</code><br>
+                Memastikan rak tidak over capacity sekaligus mencegah ruang kosong terlalu lama.
+            </p>
+        </div>
+    </div>
+
+    <div class="page-footer">
+        <span>Istiqomah Stock — Master Blueprint Specification</span>
+        <span>Dokumen Rahasia Internal</span>
+    </div>
+</div>
+
+<!-- HALAMAN 7: CHART & VISUAL ANALYTICS -->
+<div class="page">
+    <div class="page-header">
+        <div class="page-header-logo">
+            <span class="page-header-badge">ISTIQOMAH STOCK</span>
+            <span>BAB 5: MODUL CHART & ANALITIK VISUAL</span>
+        </div>
+        <span>HALAMAN 7</span>
+    </div>
+
+    <h1>5. Modul Chart & Analitik Visual Real-Time</h1>
+    <p>
+        Untuk mempermudah manajemen toko membaca tren inventaris secara cepat, aplikasi menyediakan dashboard analitik berbasis grafik vektor murni (SVG Native) yang ringan dan bekerja instan dalam mode offline.
+    </p>
+
+    <div class="grid-2" style="margin-top: 6px;">
+        
+        <!-- CHART 1: DONUT PROPORSI LANTAI -->
+        <div class="chart-container">
+            <div style="font-weight: 700; font-size: 8.5pt; color: #F87171; margin-bottom: 6px;">
+                Proporsi Kuantitas Stok per Lantai
+            </div>
+            
+            <svg width="160" height="160" viewBox="0 0 100 100">
+                <!-- Lantai 1: 35% (Red #DC2626) -->
+                <circle cx="50" cy="50" r="35" fill="transparent" stroke="#DC2626" stroke-width="18"
+                        stroke-dasharray="77 220" stroke-dashoffset="0"/>
+                <!-- Lantai 2: 25% (Brown #944D29) -->
+                <circle cx="50" cy="50" r="35" fill="transparent" stroke="#944D29" stroke-width="18"
+                        stroke-dasharray="55 220" stroke-dashoffset="-77"/>
+                <!-- Lantai 3: 15% (Green #10B981) -->
+                <circle cx="50" cy="50" r="35" fill="transparent" stroke="#10B981" stroke-width="18"
+                        stroke-dasharray="33 220" stroke-dashoffset="-132"/>
+                <!-- Lantai 4 (Gudang): 25% (Amber #D97706) -->
+                <circle cx="50" cy="50" r="35" fill="transparent" stroke="#D97706" stroke-width="18"
+                        stroke-dasharray="55 220" stroke-dashoffset="-165"/>
+                
+                <text x="50" y="47" fill="#FAF8F5" font-size="10" font-weight="bold" text-anchor="middle">TOTAL</text>
+                <text x="50" y="58" fill="#F87171" font-size="8" font-weight="bold" text-anchor="middle">4,850 Pcs</text>
+            </svg>
+
+            <div class="chart-legend">
+                <div class="legend-item"><div class="legend-dot" style="background:#DC2626;"></div> Lt 1: Kebutuhan (35%)</div>
+                <div class="legend-item"><div class="legend-dot" style="background:#944D29;"></div> Lt 2: Pakaian (25%)</div>
+                <div class="legend-item"><div class="legend-dot" style="background:#10B981;"></div> Lt 3: Perabotan (15%)</div>
+                <div class="legend-item"><div class="legend-dot" style="background:#D97706;"></div> Lt 4: Gudang (25%)</div>
+            </div>
+        </div>
+
+        <!-- CHART 2: BAR CHART FAST-MOVING ITEMS -->
+        <div class="chart-container">
+            <div style="font-weight: 700; font-size: 8.5pt; color: #F87171; margin-bottom: 6px;">
+                Top 5 Kategori Perputaran Tercepat (Fast-Moving)
+            </div>
+
+            <svg width="230" height="150" viewBox="0 0 230 150" style="font-size: 7pt; font-family: 'Plus Jakarta Sans', sans-serif;">
+                <!-- Bar 1: Pempes (Lt 1) -->
+                <text x="5" y="22" fill="#D6C7BF">Pempes (L1)</text>
+                <rect x="75" y="12" width="135" height="14" rx="3" fill="#DC2626"/>
+                <text x="215" y="23" fill="#fff" font-weight="bold">145</text>
+
+                <!-- Bar 2: Minyak & Bumbu (Lt 1) -->
+                <text x="5" y="50" fill="#D6C7BF">Minyak (L1)</text>
+                <rect x="75" y="40" width="115" height="14" rx="3" fill="#944D29"/>
+                <text x="195" y="51" fill="#fff" font-weight="bold">125</text>
+
+                <!-- Bar 3: Sabun Mandi (Lt 1) -->
+                <text x="5" y="78" fill="#D6C7BF">Sabun (L1)</text>
+                <rect x="75" y="68" width="90" height="14" rx="3" fill="#D97706"/>
+                <text x="170" y="79" fill="#fff" font-weight="bold">98</text>
+
+                <!-- Bar 4: Kaos Pria (Lt 2) -->
+                <text x="5" y="106" fill="#D6C7BF">Kaos Pria (L2)</text>
+                <rect x="75" y="96" width="70" height="14" rx="3" fill="#6E3B20"/>
+                <text x="150" y="107" fill="#fff" font-weight="bold">75</text>
+
+                <!-- Bar 5: Toples Dapur (Lt 3) -->
+                <text x="5" y="134" fill="#D6C7BF">Toples (L3)</text>
+                <rect x="75" y="124" width="42" height="14" rx="3" fill="#10B981"/>
+                <text x="122" y="135" fill="#fff" font-weight="bold">45</text>
+            </svg>
+
+            <div style="font-size: 6.5pt; color: #A8A29E; margin-top: 2px; text-align: center;">
+                *Kuantitas unit keluar dalam siklus 7 hari terakhir
+            </div>
+        </div>
+
+    </div>
+
+    <div class="panel-dark" style="margin-top: 8px;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+            <strong style="color: #F87171; font-size: 8.5pt;">Rasio Kesehatan Stok Keseluruhan (Inventory Health Indicator)</strong>
+            <span style="font-size: 7pt; color: #86EFAC;">Total SKU Terdaftar: 418 Item</span>
+        </div>
+
+        <!-- PROGRESS BAR RATIO -->
+        <div style="width: 100%; height: 14px; background: #110D0B; border-radius: 7px; overflow: hidden; display: flex; border: 1px solid rgba(255,255,255,0.06);">
+            <div style="width: 78%; background: #10B981;" title="Aman (78%)"></div>
+            <div style="width: 16%; background: #D97706;" title="Menipis (16%)"></div>
+            <div style="width: 6%; background: #DC2626;" title="Habis (6%)"></div>
+        </div>
+
+        <div style="display: flex; justify-content: space-between; margin-top: 4px; font-size: 7pt;">
+            <span style="color: #6EE7B7;"><span class="status-dot dot-green"></span>326 SKU Aman (78%)</span>
+            <span style="color: #FCD34D;"><span class="status-dot dot-amber"></span>67 SKU Menipis (16%)</span>
+            <span style="color: #FCA5A5;"><span class="status-dot dot-red"></span>25 SKU Habis (6%)</span>
+        </div>
+    </div>
+
+    <div class="page-footer">
+        <span>Istiqomah Stock — Master Blueprint Specification</span>
+        <span>Dokumen Rahasia Internal</span>
+    </div>
+</div>
+
+<!-- HALAMAN 8: SKEMA DATABASE SQLITE OFFLINE -->
+<div class="page">
+    <div class="page-header">
+        <div class="page-header-logo">
+            <span class="page-header-badge">ISTIQOMAH STOCK</span>
+            <span>BAB 6: SKEMA DATABASE SQLITE OFFLINE</span>
+        </div>
+        <span>HALAMAN 8</span>
+    </div>
+
+    <h1>6. Skema Database SQLite & Model Relasi Data</h1>
+    <p>
+        Database dirancang dengan normalisasi 3NF dan indeks teroptimasi pada kolom pencarian cepat (<code>sku</code>, <code>barcode</code>, <code>slot_id</code>) guna menjamin query instan di perangkat entry-level.
+    </p>
+
+    <div class="code-block"><span class="code-cmt">-- 1. TABEL LANTAI (FLOORS)</span>
+<span class="code-kw">CREATE TABLE</span> floors (
+    id <span class="code-fn">TEXT PRIMARY KEY</span>, floor_number <span class="code-fn">INTEGER UNIQUE NOT NULL</span>, name <span class="code-fn">TEXT NOT NULL</span>, description <span class="code-fn">TEXT</span>
+);
+<span class="code-cmt">-- 2. TABEL SLOT / RAK PENYIMPANAN (SLOTS)</span>
+<span class="code-kw">CREATE TABLE</span> slots (
+    id <span class="code-fn">TEXT PRIMARY KEY</span>, floor_id <span class="code-fn">TEXT NOT NULL</span>, slot_code <span class="code-fn">TEXT NOT NULL</span>, slot_name <span class="code-fn">TEXT NOT NULL</span>,
+    capacity_limit <span class="code-fn">INTEGER DEFAULT 500</span>, <span class="code-kw">FOREIGN KEY</span> (floor_id) <span class="code-kw">REFERENCES</span> floors(id)
+);
+<span class="code-cmt">-- 3. TABEL MASTER BARANG & STOK (ITEMS)</span>
+<span class="code-kw">CREATE TABLE</span> items (
+    id <span class="code-fn">TEXT PRIMARY KEY</span>, slot_id <span class="code-fn">TEXT NOT NULL</span>, sku <span class="code-fn">TEXT UNIQUE NOT NULL</span>, barcode <span class="code-fn">TEXT</span>,
+    name <span class="code-fn">TEXT NOT NULL</span>, category <span class="code-fn">TEXT NOT NULL</span>, unit <span class="code-fn">TEXT NOT NULL</span>,
+    current_stock <span class="code-fn">INTEGER NOT NULL DEFAULT 0</span>, min_stock_alert <span class="code-fn">INTEGER NOT NULL DEFAULT 5</span>,
+    max_stock_capacity <span class="code-fn">INTEGER NOT NULL DEFAULT 100</span>, cost_price <span class="code-fn">REAL DEFAULT 0</span>, selling_price <span class="code-fn">REAL DEFAULT 0</span>,
+    shelf_location <span class="code-fn">TEXT</span>, is_active <span class="code-fn">INTEGER DEFAULT 1</span>, updated_at <span class="code-fn">DATETIME DEFAULT CURRENT_TIMESTAMP</span>,
+    <span class="code-kw">FOREIGN KEY</span> (slot_id) <span class="code-kw">REFERENCES</span> slots(id)
+);
+<span class="code-cmt">-- 4. TABEL MUTASI TRANSAKSI STOK (STOCK_MUTATIONS)</span>
+<span class="code-kw">CREATE TABLE</span> stock_mutations (
+    id <span class="code-fn">TEXT PRIMARY KEY</span>, item_id <span class="code-fn">TEXT NOT NULL</span>,
+    mutation_type <span class="code-fn">TEXT NOT NULL</span>, <span class="code-cmt">-- 'IN_INBOUND', 'OUT_SALE', 'TRANSFER_FLOOR', 'ADJUST_OPNAME'</span>
+    quantity <span class="code-fn">INTEGER NOT NULL</span>, previous_stock <span class="code-fn">INTEGER NOT NULL</span>, resulting_stock <span class="code-fn">INTEGER NOT NULL</span>,
+    source_floor_id <span class="code-fn">TEXT</span>, dest_floor_id <span class="code-fn">TEXT</span>, reference_note <span class="code-fn">TEXT</span>, created_at <span class="code-fn">DATETIME DEFAULT CURRENT_TIMESTAMP</span>,
+    <span class="code-kw">FOREIGN KEY</span> (item_id) <span class="code-kw">REFERENCES</span> items(id)
+);
+<span class="code-cmt">-- INDEKS OPTIMASI PENCARIAN OFFLINE INSTAN</span>
+<span class="code-kw">CREATE INDEX</span> idx_items_slot <span class="code-kw">ON</span> items(slot_id);
+<span class="code-kw">CREATE INDEX</span> idx_items_sku_barcode <span class="code-kw">ON</span> items(sku, barcode);
+<span class="code-kw">CREATE INDEX</span> idx_mutations_item_date <span class="code-kw">ON</span> stock_mutations(item_id, created_at);</div>
+
+    <div class="panel">
+        <h3>Strategi Pemulihan Data & Pencadangan Lokal (Local Resilience)</h3>
+        <p style="font-size: 7.8pt; color: #4A3E37; margin: 0;">
+            1. <strong>Write-Ahead Logging (WAL):</strong> Mode <code>PRAGMA journal_mode=WAL;</code> untuk kecepatan tulis tinggi tanpa mengunci proses pembacaan.<br>
+            2. <strong>Auto-Snapshot Daily:</strong> Database diekspor otomatis setiap pukul 21:00 ke penyimpanan lokal gawai (folder <code>/IstiqomahStock/Backups/</code>).<br>
+            3. <strong>Manual Export:</strong> Satu klik di menu pengaturan untuk mengekspor seluruh basis data ke berkas terkompresi (.JSON / .db).
+        </p>
+    </div>
+
+    <div class="page-footer">
+        <span>Istiqomah Stock — Master Blueprint Specification</span>
+        <span>Dokumen Rahasia Internal</span>
+    </div>
+</div>
+
+<!-- HALAMAN 9: ROADMAP & VERIFIKASI SISTEM -->
+<div class="page">
+    <div class="page-header">
+        <div class="page-header-logo">
+            <span class="page-header-badge">ISTIQOMAH STOCK</span>
+            <span>BAB 7: ROADMAP PENGEMBANGAN & KESIMPULAN</span>
+        </div>
+        <span>HALAMAN 9</span>
+    </div>
+
+    <h1>7. Rencana Kerja (Roadmap) & Verifikasi Sistem</h1>
+    <p>
+        Tahapan implementasi terstruktur yang akan dieksekusi setelah perencanaan ini disetujui:
+    </p>
+
+    <table>
+        <thead>
+            <tr>
+                <th style="width: 14%;">Fase</th>
+                <th style="width: 30%;">Lingkup Kerja</th>
+                <th style="width: 42%;">Output / Deliverables</th>
+                <th style="width: 14%;">Target</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><strong>Fase 1</strong></td>
+                <td>Inisialisasi Proyek & SQLite</td>
+                <td>Struktur proyek mobile, skema 4 lantai & slot, seed data awal, modul database CRUD offline.</td>
+                <td>Sprint 1</td>
+            </tr>
+            <tr>
+                <td><strong>Fase 2</strong></td>
+                <td>UI Coklat-Hitam-Merah & Drawer</td>
+                <td>Komponen tema, collapsible hamburger drawer di kiri atas, layout halaman Lantai 1, 2, 3, dan 4.</td>
+                <td>Sprint 2</td>
+            </tr>
+            <tr>
+                <td><strong>Fase 3</strong></td>
+                <td>Modul Mutasi & Tracking Habis</td>
+                <td>Form In/Out cepat, transfer stok Gudang Lt 4 ➔ Lt 1-3, deteksi ambang batas stok kritis & out-of-stock.</td>
+                <td>Sprint 3</td>
+            </tr>
+            <tr>
+                <td><strong>Fase 4</strong></td>
+                <td>Dashboard Chart & Ekspor PDF</td>
+                <td>Visualisasi Donut/Bar Chart SVG, sistem laporan stok habis, backup/restore file lokal gawai.</td>
+                <td>Sprint 4</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h2>Matriks Pengujian Integritas Offline (QA Matrix)</h2>
+    <div class="grid-2">
+        <div class="panel">
+            <h3 style="color: #991B1B;">Skenario Uji Kritis</h3>
+            <ul style="padding-left: 14px; font-size: 7.8pt; color: #443630; line-height: 1.45;">
+                <li>Uji coba dalam Airplane Mode (100% tanpa internet).</li>
+                <li>Uji coba 10.000 transaksi mutasi berturut-turut.</li>
+                <li>Simulasi baterai habis saat transaksi diproses.</li>
+                <li>Uji responsivitas buka-tutup drawer kiri atas.</li>
+            </ul>
+        </div>
+        <div class="panel">
+            <h3 style="color: #065F46;">Kriteria Keberhasilan</h3>
+            <ul style="padding-left: 14px; font-size: 7.8pt; color: #443630; line-height: 1.45;">
+                <li>Tidak ada crash atau data hilang saat offline.</li>
+                <li>Pencarian produk dan barcode instan (&lt; 50ms).</li>
+                <li>Kalkulasi stok habis akurat 100%.</li>
+                <li>Tampilan responsif di berbagai resolusi layar.</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="panel-dark" style="margin-top: 8px; border-left: 4px solid #DC2626;">
+        <h3 style="color: #F87171; margin-top: 0;">Pernyataan Kesiapan Perencanaan (Planning Sign-Off)</h3>
+        <p style="font-size: 8pt; color: #EAE1D9; margin: 0;">
+            Dokumen perencanaan ini telah mencakup seluruh kebutuhan aplikasi <strong>Istiqomah Stock</strong>: pemisahan halaman Lantai 1 (Kebutuhan), Lantai 2 (Pakaian), Lantai 3 (Perabotan), dan Lantai 4 (Gudang), sistem penempatan slot terperinci (Stock 1: Pempes, Stock 2: Sabun, dll), analitik chart visual, modul tracking stok habis, arsitektur offline-first, palet warna elegan coklat-hitam-merah, serta navigasi drawer kiri atas yang rapi.
+        </p>
+    </div>
+
+    <div class="page-footer">
+        <span>Istiqomah Stock — Master Blueprint Specification</span>
+        <span>Dokumen Rahasia Internal</span>
+    </div>
+</div>
+
+</body>
+</html>
