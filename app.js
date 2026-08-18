@@ -210,6 +210,11 @@ class StockApp {
     this.addItemForm = document.getElementById('addItemForm');
     this.addItemCloseBtn = document.getElementById('addItemCloseBtn');
 
+    // Edit Item Modal
+    this.editItemModal = document.getElementById('editItemModal');
+    this.editItemForm = document.getElementById('editItemForm');
+    this.editItemCloseBtn = document.getElementById('editItemCloseBtn');
+
     // Scanner Modal
     this.scannerModal = document.getElementById('scannerModal');
     this.scannerCloseBtn = document.getElementById('scannerCloseBtn');
@@ -286,18 +291,20 @@ class StockApp {
       });
     }
 
-    // Mutation Form Submit
-    this.mutationForm.addEventListener('submit', (e) => {
-      e.preventDefault();
-      this.handleMutationSubmit();
-    });
+    // Mutation    // Form Submissions
+    this.mutationForm.addEventListener('submit', (e) => { e.preventDefault(); this.handleMutationSubmit(); });
+    this.addItemForm.addEventListener('submit', (e) => { e.preventDefault(); this.handleAddItemSubmit(); });
+    
+    if (this.editItemForm) {
+      this.editItemForm.addEventListener('submit', (e) => { e.preventDefault(); this.handleEditItemSubmit(); });
+    }
 
-    // Add Item Form Submit
-    if (this.addItemForm) {
-      this.addItemForm.addEventListener('submit', (e) => {
-        e.preventDefault();
-        this.handleAddItemSubmit();
-      });
+    // Modal close hooks
+    this.modalCloseBtn.addEventListener('click', () => this.closeModal(this.mutationModal));
+    this.addItemCloseBtn.addEventListener('click', () => this.closeModal(this.addItemModal));
+    
+    if (this.editItemCloseBtn) {
+      this.editItemCloseBtn.addEventListener('click', () => this.closeModal(this.editItemModal));
     }
 
     // Floating Action Button
@@ -328,8 +335,13 @@ class StockApp {
     await this.openScanner();
   }
 
+  async openScannerForEdit() {
+    this.scannerMode = 'EDIT_ITEM';
+    await this.openScanner();
+  }
+
   async openScanner() {
-    if (this.scannerMode !== 'ADD_ITEM') {
+    if (this.scannerMode !== 'ADD_ITEM' && this.scannerMode !== 'EDIT_ITEM') {
       this.scannerMode = 'DEFAULT';
     }
     
@@ -454,6 +466,14 @@ class StockApp {
 
     if (this.scannerMode === 'ADD_ITEM') {
       const barcodeInput = document.getElementById('newItemBarcode');
+      if (barcodeInput) {
+        barcodeInput.value = trimmedCode;
+        this.showToast('Barcode berhasil disalin ke form!', 'success');
+      }
+      this.scannerMode = 'DEFAULT';
+      return;
+    } else if (this.scannerMode === 'EDIT_ITEM') {
+      const barcodeInput = document.getElementById('editItemBarcode');
       if (barcodeInput) {
         barcodeInput.value = trimmedCode;
         this.showToast('Barcode berhasil disalin ke form!', 'success');
@@ -753,9 +773,100 @@ class StockApp {
     }, 3000);
   }
 
-  // =========================================================================
+  // ==========================================
+  // EDIT & DELETE ITEM
+  // ==========================================
+  openEditItemModal() {
+    if (!this.selectedItemForMutation) return;
+    
+    // Close mutation modal first
+    this.closeModal(this.mutationModal);
+
+    const item = this.selectedItemForMutation;
+    
+    document.getElementById('editItemId').value = item.id;
+    document.getElementById('editItemName').value = item.name;
+    document.getElementById('editItemSku').value = item.sku;
+    document.getElementById('editItemBarcode').value = item.barcode || '';
+    document.getElementById('editItemMinStock').value = item.minStock;
+    document.getElementById('editItemMaxStock').value = item.maxStock;
+    document.getElementById('editItemUnit').value = item.unit;
+    document.getElementById('editItemLocation').value = item.location;
+
+    // Populate Floor
+    const floorSelect = document.getElementById('editItemFloor');
+    floorSelect.innerHTML = this.state.floors.map(f => `<option value="${f.id}">${f.name}</option>`).join('');
+    floorSelect.value = item.floorId;
+
+    // Populate Slot
+    const slotSelect = document.getElementById('editItemSlot');
+    const updateSlots = () => {
+      const floor = this.state.floors.find(f => f.id === floorSelect.value);
+      if (floor) {
+        slotSelect.innerHTML = floor.slots.map(s => `<option value="${s.id}">${s.code} - ${s.name}</option>`).join('');
+      }
+    };
+    
+    updateSlots();
+    slotSelect.value = item.slotId;
+    
+    floorSelect.onchange = () => {
+      updateSlots();
+    };
+
+    this.openModal(this.editItemModal);
+  }
+
+  handleEditItemSubmit() {
+    const id = document.getElementById('editItemId').value;
+    const itemIndex = this.state.items.findIndex(i => i.id === id);
+    
+    if (itemIndex === -1) {
+      this.showToast('Barang tidak ditemukan!', 'error');
+      return;
+    }
+
+    this.state.items[itemIndex] = {
+      ...this.state.items[itemIndex],
+      name: document.getElementById('editItemName').value,
+      floorId: document.getElementById('editItemFloor').value,
+      slotId: document.getElementById('editItemSlot').value,
+      sku: document.getElementById('editItemSku').value,
+      barcode: document.getElementById('editItemBarcode').value,
+      minStock: parseInt(document.getElementById('editItemMinStock').value, 10),
+      maxStock: parseInt(document.getElementById('editItemMaxStock').value, 10),
+      unit: document.getElementById('editItemUnit').value,
+      location: document.getElementById('editItemLocation').value
+    };
+
+    this.saveData();
+    this.closeModal(this.editItemModal);
+    this.render();
+    this.showToast('Barang berhasil diperbarui!', 'success');
+  }
+
+  deleteItem() {
+    const id = document.getElementById('editItemId').value;
+    const item = this.state.items.find(i => i.id === id);
+    
+    if (!item) return;
+
+    if (confirm(`Yakin ingin MENGHAPUS secara permanen barang "${item.name}" dari sistem?`)) {
+      this.state.items = this.state.items.filter(i => i.id !== id);
+      
+      // Delete mutations as well
+      this.state.mutations = this.state.mutations.filter(m => m.itemId !== id);
+
+      this.saveData();
+      this.closeModal(this.editItemModal);
+      this.render();
+      this.showToast('Barang berhasil dihapus!', 'warning');
+    }
+  }
+
+  // ==========================================
   // VIEW RENDERERS
-  // =========================================================================
+  // ==========================================
   render() {
     this.updateAlertBadge();
 
@@ -796,137 +907,82 @@ class StockApp {
     const l3Stock = floorStocks[2].stock;
     const l4Stock = floorStocks[3].stock;
 
-    // SVG Donut calculation
-    const totalForDonut = Math.max(1, totalStock);
-    const p1 = (l1Stock / totalForDonut) * 220;
-    const p2 = (l2Stock / totalForDonut) * 220;
-    const p3 = (l3Stock / totalForDonut) * 220;
-    const p4 = (l4Stock / totalForDonut) * 220;
-
-    const off1 = 0;
-    const off2 = -p1;
-    const off3 = -(p1 + p2);
-    const off4 = -(p1 + p2 + p3);
-
-    // Fast moving top 5
-    const fastMoving = [...this.state.items]
-      .sort((a, b) => (b.weeklyOut || 0) - (a.weeklyOut || 0))
-      .slice(0, 5);
-
-    const maxFastOut = Math.max(1, ...fastMoving.map(i => i.weeklyOut || 0));
-
     this.contentContainer.innerHTML = `
       <!-- TOP STATS CARDS -->
       <div class="stats-cards-grid">
-        <div class="stat-card" style="border-left: 3px solid var(--ruby-primary);">
+        <div class="stat-card">
           <div class="stat-card-title">Total Stok Tersedia</div>
           <div class="stat-card-val">${totalStock.toLocaleString()}</div>
           <div class="stat-card-sub">${totalItems} SKU terdaftar</div>
         </div>
 
-        <div class="stat-card" style="border-left: 3px solid ${emptyItems.length > 0 ? 'var(--ruby-primary)' : 'var(--green-safe)'}; cursor:pointer;" onclick="app.switchView('report_outofstock')">
+        <div class="stat-card" style="cursor:pointer;" onclick="app.switchView('report_outofstock')">
           <div class="stat-card-title">Status Stok Kritis</div>
-          <div class="stat-card-val" style="color:${emptyItems.length > 0 ? '#F87171' : '#34D399'};">
+          <div class="stat-card-val" style="color:${emptyItems.length > 0 ? '#E11D48' : '#059669'};">
             ${emptyItems.length} <span style="font-size:12px; font-weight:600; color:var(--text-muted);">Habis</span> / ${criticalItems.length - emptyItems.length} <span style="font-size:12px; font-weight:600; color:var(--text-muted);">Menipis</span>
           </div>
-          <div class="stat-card-sub" style="color:#FCA5A5;">Klik untuk Laporan Restock &rarr;</div>
+          <div class="stat-card-sub" style="color:#BE123C;">Klik untuk Laporan &rarr;</div>
         </div>
       </div>
 
-      <!-- INVENTORY HEALTH PROGRESS BAR -->
-      <div class="chart-card">
-        <div class="chart-card-header">
-          <div class="chart-card-title">
-            <span class="icon-inline">${ICONS.shield}</span> Rasio Kesehatan Stok Inventaris
+      <!-- INVENTORY HEALTH TEXT -->
+      <div class="chart-card" style="padding:16px;">
+        <div class="chart-card-title" style="margin-bottom:12px;">
+          <span class="icon-inline">${ICONS.shield}</span> Rasio Kesehatan Stok
+        </div>
+        <div style="display:grid; grid-template-columns:1fr 1fr 1fr; text-align:center; gap:8px;">
+          <div style="background:#F0FDF4; padding:8px; border-radius:6px; border:1px solid #BBF7D0;">
+            <div style="font-size:16px; font-weight:800; color:#166534;">${safeItems.length}</div>
+            <div style="font-size:10px; font-weight:700; color:#15803D;">AMAN</div>
           </div>
-          <span style="font-size:11px; font-weight:700; color:var(--green-safe);">${Math.round((safeItems.length / Math.max(1, totalItems)) * 100)}% Aman</span>
-        </div>
-
-        <div class="health-bar-wrapper">
-          <div class="health-bar-seg" style="width:${(safeItems.length / Math.max(1, totalItems)) * 100}%; background:var(--green-safe);" title="Aman"></div>
-          <div class="health-bar-seg" style="width:${((criticalItems.length - emptyItems.length) / Math.max(1, totalItems)) * 100}%; background:var(--amber-warning);" title="Menipis"></div>
-          <div class="health-bar-seg" style="width:${(emptyItems.length / Math.max(1, totalItems)) * 100}%; background:var(--ruby-primary);" title="Habis"></div>
-        </div>
-
-        <div style="display:flex; justify-content:space-between; font-size:11px; color:var(--text-muted);">
-          <span style="color:#6EE7B7;"><span class="status-indicator" style="background:#10B981;"></span> ${safeItems.length} Aman</span>
-          <span style="color:#FCD34D;"><span class="status-indicator" style="background:#D97706;"></span> ${criticalItems.length - emptyItems.length} Menipis</span>
-          <span style="color:#FCA5A5;"><span class="status-indicator" style="background:#DC2626;"></span> ${emptyItems.length} Habis</span>
-        </div>
-      </div>
-
-      <!-- CHART 1: DONUT PROPORTION -->
-      <div class="chart-card">
-        <div class="chart-card-header">
-          <div class="chart-card-title">
-            <span class="icon-inline">${ICONS.trend}</span> Distribusi Stok per Lantai
+          <div style="background:#FFFBEB; padding:8px; border-radius:6px; border:1px solid #FEF3C7;">
+            <div style="font-size:16px; font-weight:800; color:#B45309;">${criticalItems.length - emptyItems.length}</div>
+            <div style="font-size:10px; font-weight:700; color:#B45309;">MENIPIS</div>
           </div>
-          <span style="font-size:11px; color:var(--text-muted);">4 Lantai Aktif</span>
-        </div>
-
-        <div style="display:flex; flex-direction:column; align-items:center; margin:8px 0;">
-          <svg width="170" height="170" viewBox="0 0 100 100">
-            <!-- Lantai 1: Red #DC2626 -->
-            <circle cx="50" cy="50" r="35" fill="transparent" stroke="#DC2626" stroke-width="18"
-                    stroke-dasharray="${p1} 220" stroke-dashoffset="${off1}"/>
-            <!-- Lantai 2: Brown #944D29 -->
-            <circle cx="50" cy="50" r="35" fill="transparent" stroke="#944D29" stroke-width="18"
-                    stroke-dasharray="${p2} 220" stroke-dashoffset="${off2}"/>
-            <!-- Lantai 3: Green #10B981 -->
-            <circle cx="50" cy="50" r="35" fill="transparent" stroke="#10B981" stroke-width="18"
-                    stroke-dasharray="${p3} 220" stroke-dashoffset="${off3}"/>
-            <!-- Lantai 4 (Gudang): Amber #D97706 -->
-            <circle cx="50" cy="50" r="35" fill="transparent" stroke="#D97706" stroke-width="18"
-                    stroke-dasharray="${p4} 220" stroke-dashoffset="${off4}"/>
-
-            <text x="50" y="47" fill="#FAF8F5" font-size="9.5" font-weight="800" text-anchor="middle" font-family="Plus Jakarta Sans">TOTAL</text>
-            <text x="50" y="58" fill="#F87171" font-size="8" font-weight="800" text-anchor="middle" font-family="JetBrains Mono">${totalStock}</text>
-          </svg>
-
-          <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px; width:100%; margin-top:8px;">
-            <div style="background:#17120F; padding:6px 9px; border-radius:6px; border:1px solid #3F3028; cursor:pointer;" onclick="app.switchView('floor_1')">
-              <div style="font-size:10.5px; color:#F87171; font-weight:700;">Lantai 1 (Kebutuhan)</div>
-              <div style="font-size:14px; font-weight:800; color:#fff; font-family:'JetBrains Mono';">${l1Stock} <span style="font-size:10px; color:var(--text-dim);">Pcs</span></div>
-            </div>
-            <div style="background:#17120F; padding:6px 9px; border-radius:6px; border:1px solid #3F3028; cursor:pointer;" onclick="app.switchView('floor_2')">
-              <div style="font-size:10.5px; color:#E7D7CE; font-weight:700;">Lantai 2 (Pakaian)</div>
-              <div style="font-size:14px; font-weight:800; color:#fff; font-family:'JetBrains Mono';">${l2Stock} <span style="font-size:10px; color:var(--text-dim);">Pcs</span></div>
-            </div>
-            <div style="background:#17120F; padding:6px 9px; border-radius:6px; border:1px solid #3F3028; cursor:pointer;" onclick="app.switchView('floor_3')">
-              <div style="font-size:10.5px; color:#86EFAC; font-weight:700;">Lantai 3 (Perabotan)</div>
-              <div style="font-size:14px; font-weight:800; color:#fff; font-family:'JetBrains Mono';">${l3Stock} <span style="font-size:10px; color:var(--text-dim);">Pcs</span></div>
-            </div>
-            <div style="background:#17120F; padding:6px 9px; border-radius:6px; border:1px solid #3F3028; cursor:pointer;" onclick="app.switchView('floor_4')">
-              <div style="font-size:10.5px; color:#FCD34D; font-weight:700;">Lantai 4 (Gudang Buffer)</div>
-              <div style="font-size:14px; font-weight:800; color:#fff; font-family:'JetBrains Mono';">${l4Stock} <span style="font-size:10px; color:var(--text-dim);">Pcs</span></div>
-            </div>
+          <div style="background:#FFF1F2; padding:8px; border-radius:6px; border:1px solid #FECDD3;">
+            <div style="font-size:16px; font-weight:800; color:#BE123C;">${emptyItems.length}</div>
+            <div style="font-size:10px; font-weight:700; color:#BE123C;">HABIS</div>
           </div>
         </div>
       </div>
 
-      <!-- CHART 2: FAST-MOVING HORIZONTAL BAR -->
-      <div class="chart-card">
-        <div class="chart-card-header">
-          <div class="chart-card-title">
-            <span class="icon-inline">${ICONS.trend}</span> Top 5 Produk Fast-Moving (Paling Laris)
+      <!-- FLOOR DISTRIBUTION LIST -->
+      <div class="chart-card" style="padding:16px;">
+        <div class="chart-card-title" style="margin-bottom:12px;">
+          <span class="icon-inline">${ICONS.trend}</span> Distribusi Stok per Lantai
+        </div>
+        <div style="display:flex; flex-direction:column; gap:8px;">
+          <div style="display:flex; justify-content:space-between; padding-bottom:6px; border-bottom:1px solid var(--border-subtle);">
+            <span style="font-weight:600;">Lantai 1 (Kebutuhan)</span>
+            <span style="font-weight:700;">${l1Stock} Pcs</span>
+          </div>
+          <div style="display:flex; justify-content:space-between; padding-bottom:6px; border-bottom:1px solid var(--border-subtle);">
+            <span style="font-weight:600;">Lantai 2 (Pakaian)</span>
+            <span style="font-weight:700;">${l2Stock} Pcs</span>
+          </div>
+          <div style="display:flex; justify-content:space-between; padding-bottom:6px; border-bottom:1px solid var(--border-subtle);">
+            <span style="font-weight:600;">Lantai 3 (Perabotan)</span>
+            <span style="font-weight:700;">${l3Stock} Pcs</span>
+          </div>
+          <div style="display:flex; justify-content:space-between;">
+            <span style="font-weight:600;">Lantai 4 (Gudang)</span>
+            <span style="font-weight:700;">${l4Stock} Pcs</span>
           </div>
         </div>
+      </div>
 
-        <div style="display:flex; flex-direction:column; gap:8px; margin-top:4px;">
-          ${fastMoving.map(item => {
-            const pct = Math.round(((item.weeklyOut || 0) / maxFastOut) * 100);
-            return `
-              <div>
-                <div style="display:flex; justify-content:space-between; font-size:11.5px; margin-bottom:2px;">
-                  <span style="font-weight:600; color:var(--text-white);">${item.name}</span>
-                  <span style="font-weight:700; color:#F87171; font-family:'JetBrains Mono';">${item.weeklyOut || 0} ${item.unit}</span>
-                </div>
-                <div style="height:8px; background:#120E0C; border-radius:4px; overflow:hidden; border:1px solid #382B24;">
-                  <div style="height:100%; width:${pct}%; background:linear-gradient(90deg, #944D29, #DC2626); border-radius:4px;"></div>
-                </div>
-              </div>
-            `;
-          }).join('')}
+      <!-- FAST-MOVING LIST -->
+      <div class="chart-card" style="padding:16px;">
+        <div class="chart-card-title" style="margin-bottom:12px;">
+          <span class="icon-inline">${ICONS.trend}</span> Top 5 Produk Paling Laris
+        </div>
+        <div style="display:flex; flex-direction:column; gap:6px;">
+          ${fastMoving.map((item, idx) => `
+            <div style="display:flex; justify-content:space-between; font-size:12px;">
+              <span>${idx + 1}. <span style="font-weight:600; color:var(--text-white);">${item.name}</span></span>
+              <span style="font-weight:700; color:#E11D48;">${item.weeklyOut || 0} ${item.unit}</span>
+            </div>
+          `).join('')}
         </div>
       </div>
     `;

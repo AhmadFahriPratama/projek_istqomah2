@@ -288,9 +288,14 @@
             <input type="text" id="modalInputNote" class="form-input" placeholder="Contoh: Tarik dari Gudang Lt 4 / Penjualan Kasir">
           </div>
 
-          <button type="submit" class="btn-primary" style="padding:12px; font-size:13px; margin-top:4px;">
-            Simpan Mutasi Offline
-          </button>
+          <div style="display:flex; gap:8px; margin-top:4px;">
+            <button type="submit" class="btn-primary" style="flex:3; padding:12px; font-size:13px;">
+              Simpan Mutasi
+            </button>
+            <button type="button" class="btn-secondary" style="flex:1; padding:12px; font-size:13px;" onclick="app.openEditItemModal()" title="Edit Produk">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
+            </button>
+          </div>
         </form>
       </div>
     </div>
@@ -299,6 +304,8 @@
          MODAL 3: TAMBAH BARANG BARU
          ========================================================================== -->
     <div class="modal-overlay" id="addItemModal">
+      <!-- (Keep existing code above) -->
+      <!-- We will just append the Edit Item modal after it -->
       <div class="modal-content">
         <div class="modal-header">
           <div class="modal-title">Tambah Barang Baru</div>
@@ -378,6 +385,93 @@
           <button type="submit" class="btn-primary" style="padding:12px; font-size:13px; margin-top:4px;">
             Simpan Barang ke Database
           </button>
+        </form>
+      </div>
+    </div>
+
+    <!-- ==========================================================================
+         MODAL 4: EDIT / HAPUS BARANG
+         ========================================================================== -->
+    <div class="modal-overlay" id="editItemModal">
+      <div class="modal-content">
+        <div class="modal-header">
+          <div class="modal-title">Edit / Hapus Barang</div>
+          <button class="modal-close-btn" id="editItemCloseBtn">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+          </button>
+        </div>
+
+        <form id="editItemForm" style="display:flex; flex-direction:column; gap:11px;">
+          <input type="hidden" id="editItemId">
+          <div class="form-group">
+            <label class="form-label" for="editItemName">Nama Produk / Barang</label>
+            <input type="text" id="editItemName" class="form-input" required>
+          </div>
+
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px;">
+            <div class="form-group">
+              <label class="form-label" for="editItemFloor">Pindah Lantai</label>
+              <select id="editItemFloor" class="form-select"></select>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="editItemSlot">Pindah Slot / Kategori</label>
+              <select id="editItemSlot" class="form-select"></select>
+            </div>
+          </div>
+
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px;">
+            <div class="form-group">
+              <label class="form-label" for="editItemSku">Kode SKU</label>
+              <input type="text" id="editItemSku" class="form-input" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="editItemBarcode">Barcode / EAN</label>
+              <div style="display:flex; gap:6px;">
+                <input type="text" id="editItemBarcode" class="form-input" style="flex:1;">
+                <button type="button" class="btn-secondary" style="padding:0 12px; font-size:12px; display:flex; align-items:center; gap:4px;" onclick="app.openScannerForEdit()">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7V5a2 2 0 0 1 2-2h2"></path><path d="M17 3h2a2 2 0 0 1 2 2v2"></path><path d="M21 17v2a2 2 0 0 1-2 2h-2"></path><path d="M7 21H5a2 2 0 0 1-2-2v-2"></path><line x1="7" y1="12" x2="17" y2="12"></line></svg>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:8px;">
+            <div class="form-group">
+              <label class="form-label" for="editItemMinStock">Batas Min</label>
+              <input type="number" id="editItemMinStock" class="form-input" min="0">
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="editItemMaxStock">Batas Maks</label>
+              <input type="number" id="editItemMaxStock" class="form-input" min="1">
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="editItemUnit">Satuan</label>
+              <select id="editItemUnit" class="form-select">
+                <option value="Pcs">Pcs</option>
+                <option value="Pack">Pack</option>
+                <option value="Dus">Dus</option>
+                <option value="Karung">Karung</option>
+                <option value="Bal">Bal</option>
+                <option value="Set">Set</option>
+                <option value="Lusin">Lusin</option>
+                <option value="Unit">Unit</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="editItemLocation">Posisi Fisik Rak</label>
+            <input type="text" id="editItemLocation" class="form-input">
+          </div>
+
+          <div style="display:flex; gap:8px; margin-top:8px;">
+            <button type="submit" class="btn-primary" style="flex:2; padding:12px; font-size:13px;">
+              Simpan Perubahan
+            </button>
+            <button type="button" class="btn-secondary" style="flex:1; padding:12px; font-size:13px; color:#E11D48; border-color:#FECDD3; background:#FFF1F2;" onclick="app.deleteItem()">
+              Hapus Barang
+            </button>
+          </div>
         </form>
       </div>
     </div>
