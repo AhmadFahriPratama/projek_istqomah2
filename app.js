@@ -975,7 +975,7 @@ class StockApp {
           const statusLabel = health === 'empty' ? 'STOK HABIS' : health === 'low' ? 'MENIPIS' : 'AMAN';
 
           return `
-            <div class="item-card status-${health}">
+            <div class="item-card status-${health}" onclick="app.openMutationDialog('${item.id}')">
               <div class="item-header">
                 <div class="item-title-box">
                   <div class="item-name">${item.name}</div>
@@ -988,7 +988,7 @@ class StockApp {
                 </div>
 
                 <div class="item-stock-box">
-                  <div class="item-stock-val" style="color: ${health === 'empty' ? '#F87171' : health === 'low' ? '#FBBF24' : '#34D399'};">
+                  <div class="item-stock-val" style="color: ${health === 'empty' ? '#E11D48' : health === 'low' ? '#D97706' : '#059669'};">
                     ${item.stock}
                   </div>
                   <div class="item-unit">${item.unit}</div>
@@ -1000,12 +1000,7 @@ class StockApp {
                   <span class="item-slot-tag">${slot ? slot.code : 'Slot'}</span>
                   <span class="status-pill ${health}">${statusLabel}</span>
                 </div>
-
-                <div class="item-actions">
-                  <button class="btn-qty btn-qty-minus" title="Kurangi Stok (-1)" onclick="app.quickAdjust('${item.id}', -1)">${ICONS.minus}</button>
-                  <button class="btn-qty btn-qty-plus" title="Tambah Stok (+1)" onclick="app.quickAdjust('${item.id}', 1)">${ICONS.plus}</button>
-                  <button class="btn-secondary" style="padding:4px 8px; font-size:11px;" onclick="app.openMutationDialog('${item.id}')">Mutasi</button>
-                </div>
+                <div style="font-size: 10px; color: var(--text-dim); font-weight:600;">Klik untuk update mutasi</div>
               </div>
             </div>
           `;
@@ -1139,10 +1134,16 @@ class StockApp {
 
   // 4. MUTATION HISTORY
   renderMutationsPage() {
-    this.headerTitle.innerHTML = `<span class="icon-inline">${ICONS.mutations}</span> <span>Riwayat Mutasi</span>`;
-    this.headerSub.innerHTML = '<span class="status-indicator"></span> Log Keluar / Masuk Barang';
+    this.headerTitle.innerHTML = `<span class="icon-inline">${ICONS.mutations}</span> <span>Laporan Pengambilan & Mutasi</span>`;
+    this.headerSub.innerHTML = '<span class="status-indicator"></span> Riwayat Keluar / Masuk Barang';
 
     this.contentContainer.innerHTML = `
+      <div class="btn-export-row" style="margin-bottom: 4px;">
+        <button class="btn-secondary" onclick="app.exportMutationsCsv()">
+          <span class="icon-inline">${ICONS.download}</span> Ekspor Riwayat (CSV)
+        </button>
+      </div>
+
       <div class="items-grid">
         ${this.state.mutations.length === 0 ? `
           <div class="empty-state">
@@ -1154,29 +1155,57 @@ class StockApp {
           const isIn = m.type === 'IN';
 
           return `
-            <div class="item-card" style="border-left: 3px solid ${isIn ? 'var(--green-safe)' : 'var(--red-primary)'};">
+            <div class="item-card" style="border-left: 4px solid ${isIn ? 'var(--green-safe)' : 'var(--ruby-primary)'}; padding: 12px;">
               <div style="display:flex; justify-content:space-between; align-items:center;">
                 <div style="font-weight:700; font-size:13px; color:var(--text-white);">
-                  ${item ? item.name : 'Barang'}
+                  ${item ? item.name : 'Barang Terhapus'}
                 </div>
-                <span style="font-weight:800; font-size:13px; color:${isIn ? '#34D399' : '#F87171'};">
-                  ${isIn ? '+' : '-'}${m.qty} ${item ? item.unit : 'Pcs'}
+                <span style="font-weight:800; font-size:14px; color:${isIn ? 'var(--green-bright)' : 'var(--ruby-primary)'};">
+                  ${isIn ? '+' : '-'}${m.qty} <span style="font-size:10px;">${item ? item.unit : 'Pcs'}</span>
                 </span>
               </div>
 
-              <div style="font-size:11px; color:var(--text-muted); display:flex; justify-content:space-between; margin-top:2px;">
-                <span>Dari: <strong>${m.from}</strong> <span class="icon-inline">${ICONS.arrowRight}</span> Ke: <strong>${m.to}</strong></span>
+              <div style="font-size:11px; color:var(--text-muted); display:flex; justify-content:space-between; margin-top:4px;">
+                <span>Dari: <strong>${m.from}</strong> <span class="icon-inline" style="color:var(--text-dim);">${ICONS.arrowRight}</span> Ke: <strong>${m.to}</strong></span>
               </div>
 
-              <div style="font-size:10px; color:var(--text-dim); display:flex; justify-content:space-between; margin-top:4px; padding-top:4px; border-top:1px solid rgba(255,255,255,0.05);">
-                <span style="display:inline-flex; align-items:center; gap:3px;">${ICONS.note} ${m.note}</span>
-                <span style="display:inline-flex; align-items:center; gap:3px;">${ICONS.clock} ${m.timestamp}</span>
+              <div style="font-size:10px; color:var(--text-dim); display:flex; justify-content:space-between; margin-top:6px; padding-top:6px; border-top:1px solid var(--border-subtle);">
+                <span style="display:inline-flex; align-items:center; gap:4px; font-weight:600;"><span class="icon-inline">${ICONS.note}</span> ${m.note}</span>
+                <span style="display:inline-flex; align-items:center; gap:4px; font-weight:600;"><span class="icon-inline">${ICONS.clock}</span> ${m.timestamp}</span>
               </div>
             </div>
           `;
         }).join('')}
       </div>
     `;
+  }
+
+  exportMutationsCsv() {
+    if (this.state.mutations.length === 0) {
+      this.showToast('Tidak ada riwayat mutasi untuk diekspor.', 'warning');
+      return;
+    }
+
+    let csvContent = 'ID Mutasi,Tanggal,Waktu,Tipe,Barang,SKU,Jumlah,Satuan,Asal (Dari),Tujuan (Ke),Keterangan\n';
+    this.state.mutations.forEach(m => {
+      const item = this.state.items.find(i => i.id === m.itemId);
+      const parts = m.timestamp.split(' ');
+      const date = parts[0] || '';
+      const time = parts[1] || '';
+      const typeLabel = m.type === 'IN' ? 'MASUK' : 'KELUAR';
+      
+      csvContent += `"${m.id}","${date}","${time}","${typeLabel}","${item ? item.name : 'Unknown'}","${item ? item.sku : ''}",${m.qty},"${item ? item.unit : ''}","${m.from}","${m.to}","${m.note}"\n`;
+    });
+
+    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.setAttribute('href', url);
+    link.setAttribute('download', `Istiqomah_Stock_Mutasi_${new Date().toISOString().slice(0, 10)}.csv`);
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    this.showToast('Laporan Mutasi berhasil diekspor!', 'success');
   }
 
   // 5. SETTINGS & LOCAL BACKUP
